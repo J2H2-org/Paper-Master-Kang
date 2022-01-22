@@ -2,4 +2,4 @@ venv
 .env.db
 .env.prod
 
-mongodb_data_dev
+/mongodb_data_dev/
