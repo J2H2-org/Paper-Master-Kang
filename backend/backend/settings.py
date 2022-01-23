@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import json
+
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,7 +25,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = '$yx3jf3y@r)%g+479&f*&(8o9@%quk#zwf57i0w^*)y9_vx9ka'
 SECRET_KEY = os.getenv('SECRET_KEY', 'foo')
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.getenv('DEBUG', 1))
 
@@ -42,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'rest_framework',
+    #'rest_framework',
     # TODO rest-ramework 관련인데 작업전이라 일단 주석처리 해둠
 ]
 
@@ -140,3 +142,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# SOCIAL_OUTH_CONFIG = {
+#     "KAKAO_REST_API_KEY": os.getenv['KAKAO_REST_API_KEY'],
+#     "KAKAO_REDIRECT_URI": os.getenv['KAKAO_REDIRECT_URI'],
+#}#수정
