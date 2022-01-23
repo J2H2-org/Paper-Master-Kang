@@ -5,6 +5,11 @@ import json
 from django.template import loader
 from django.http import HttpResponse, JsonResponse
 
+def index(request):
+    _context = {'check':False}
+    if request.session.get('access_token'):
+        _context['check'] = True
+    return render(request, 'index.html', _context)
 
 def kakaoLoginLogic(request):
     _restApiKey = 'b4f6f8f6c4b053afea4c10388afad5f0'
