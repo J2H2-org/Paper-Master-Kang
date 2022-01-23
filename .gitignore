@@ -1,5 +1,5 @@
 venv
 .env.db
 .env.prod
-
+/.idea
 /mongodb_data_dev/
