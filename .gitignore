@@ -1,6 +1,6 @@
 venv
 .env.db
 .env.prod
-/.idea
-/.vscode
+/.idea/
+/.vscode/
 /mongodb_data_dev/
