@@ -27,19 +27,18 @@ def kakaoLoginView(request):
             'code' : _qs
             }
     _res = requests.post(url,headers=headers, data = body)
-    _result = _res.json()
-    access_token = json.loads(_res.text).get('access_token')
-     # request.session['access_token'] = _result['access_token']
-     # request.session.modified = True
+    _access_token = _res.json()
+     access_token = json.loads(_res.text).get('access_token')
+     request.session['access_token'] = _access_token['access_token']
+     request.session.modified = True
     _user_url = 'https://kapi.kakao.com/v2/user/me'
-    auth = "Bearer "+ _result['access_token']
+    auth = "Bearer "+ _access_token['access_token']
     HEADER = {
-        'Authorization' : auth,
+        'Authorization' : auth
         'Contest-type' : 'applicaton/x-www-form-urlencoded;charset=utf-8'
     }
     _user_result = requests.get(_user_url, headers=HEADER)
-    #_user_result = json.loads(_user_result.text)
-    print(_res.json())
+    _user_result = json.loads(_user_result.text)
     return Response(_user_result.text)
 
 
