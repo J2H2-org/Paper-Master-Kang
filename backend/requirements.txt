@@ -2,7 +2,6 @@ Django==3.2.4
 django-cors-headers==3.11.0
 djangorestframework==3.13.1
 gunicorn==20.1.0
-mongoengine
 django-redis
-requests
-
+djongo
+pymongo==3.12.1

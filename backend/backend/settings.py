@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -42,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'rest_framework',
+    'rest_framework',
+    'ChatPhone.apps.ChatphoneConfig',
+    'djongo',
     # TODO rest-ramework 관련인데 작업전이라 일단 주석처리 해둠
 ]
 
@@ -84,12 +85,30 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 #TODO DB설정 해야됨
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'backend.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'ENFORCE_SCHEMA': True,
+        'LOGGING': {
+            'version': 1,
+            'loggers': {
+                'djongo': {
+                    'level': 'DEBUG',
+                    'propogate': False,
+                }
+            },
+         },
+        'NAME': 'cp_items_db',
+        'CLIENT': {
+            'host': '127.0.0.1',
+            'port': 9017,
+            'username': 'root',
+            'password': "temppw",
+            'authSource': 'admin',
+            'authMechanism': 'SCRAM-SHA-1'
+        }
+    }
+}
 
 
 # Password validation
