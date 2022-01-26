@@ -13,7 +13,7 @@ class ChatPhoneViewSet(viewsets.ModelViewSet):
     serializer_class = ChatPhoneSerializer
 
 #TODO: 아직 기능은 없음
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST', 'DELETE'])
 def items_list(request):
     if request.method == 'GET':
         temp = chatphone_items.objects.all()

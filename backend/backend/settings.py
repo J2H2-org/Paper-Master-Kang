@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'chatphone.apps.ChatphoneConfig',
     'corsheaders',
-    # 'drf_yasg', #TODO: 이거 도커에서 실행할 때 모듈을 못찾음 (로컬에서 runserver로 실행하면 실행됨)
+    'drf_yasg', #TODO: 이거 도커에서 실행할 때 모듈을 못찾음 (로컬에서 runserver로 실행하면 실행됨)
     'djongo',
 ]
 
