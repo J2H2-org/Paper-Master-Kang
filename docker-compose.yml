@@ -1,26 +1,34 @@
 version: "3"
 
+volumes:
+  mongodb_data_dev: {}
+
 services:
   mongo:
     image: mongo
     volumes:
-      - ./mongodb_data_dev:/data/db
+      - mongodb_data_dev:/data/db
     restart: always
     ports:
-      - 9017:27017
+      - "9017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: temppw
 
-#  mongo-express:
-#    image: mongo-express
-#    restart: always
-#    ports:
-#      - 9018:8081
-#    environment:
-#      ME_CONFIG_MONGODB_URL: mongodb://root:temppw@host.docker.internal:9017/
-#    depends_on:
-#      - mongo
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "9018:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://root:temppw@host.docker.internal:9017/
+    depends_on:
+      - mongo
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
 
   backend:
     build:
@@ -31,7 +39,7 @@ services:
         DJANGO_CORS_ORIGIN_WHITELIST: "*"
     command: python manage.py runserver 0.0.0.0:8000
     ports:
-      - 8000:8000
+      - "8000:8000"
     volumes:
       - ./backend/:/backend/
     expose:
@@ -42,7 +50,3 @@ services:
       - mongo
       - redis
 
-  redis:
-    image: redis
-    ports:
-      - 6379:6379

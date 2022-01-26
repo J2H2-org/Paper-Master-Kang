@@ -1,5 +1,5 @@
 venv
 .env.db
 .env.prod
-
+/.vscode/
 /mongodb_data_dev/
