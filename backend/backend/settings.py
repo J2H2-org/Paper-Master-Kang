@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -30,7 +30,6 @@ if os.getenv('DJANGO_ALLOWED_HOSTS'):
 else:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,21 +41,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'ChatPhone.apps.ChatphoneConfig',
+    'chatphone.apps.ChatphoneConfig',
+    'corsheaders',
+    # 'drf_yasg', #TODO: 이거 도커에서 실행할 때 모듈을 못찾음 (로컬에서 runserver로 실행하면 실행됨)
     'djongo',
-    # TODO rest-ramework 관련인데 작업전이라 일단 주석처리 해둠
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
-# TODO CORS관련 설정인데 외부 서비스와 통신에 문제가 있을 경우 풀어서 해볼 것
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -79,11 +79,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-#TODO DB설정 해야됨
+# TODO DB설정 해야됨
 
 DATABASES = {
     'default': {
@@ -97,11 +96,12 @@ DATABASES = {
                     'propogate': False,
                 }
             },
-         },
-        'NAME': 'cp_items_db',
+        },
+        'NAME': 'cp_items',
         'CLIENT': {
-            'host': '127.0.0.1',
-            'port': 9017,
+            'host': 'mongo',
+            # 'host': 'localhost',
+            # 'port': 9017,
             'username': 'root',
             'password': "temppw",
             'authSource': 'admin',
@@ -109,7 +109,6 @@ DATABASES = {
         }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -136,6 +135,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ALLOW_METHODS = ['DELETE','GET','OPTIONS','PATCH','POST','PUT']
 
 CORS_ORIGIN_WHITELIST = ['http://localhost:8000',
+                         'http://localhost:8081',
+                         'http://localhost:9017',
                          'http://localhost:80',
                          'http://localhost']
 
@@ -153,7 +154,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

@@ -15,15 +15,31 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.urls import path
-from rest_framework import routers
-from ChatPhone.views import ChatPhoneViewSet
+from django.urls import path, re_path
+# from drf_yasg import openapi
+# from drf_yasg.views import get_schema_view
+from rest_framework import routers, permissions
+from chatphone.views import ChatPhoneViewSet
 
 router = routers.DefaultRouter()
-router.register('ChatPhone', ChatPhoneViewSet)
+router.register('chatphone', ChatPhoneViewSet)
+
+# schema_view = get_schema_view(
+#     openapi.Info(
+#         title="Swagger Study API",
+#         default_version="v1",
+#         description="Swagger Study를 위한 API 문서",
+#         terms_of_service="https://www.google.com/policies/terms/",
+#         contact=openapi.Contact(name="test", email="test@test.com"),
+#         license=openapi.License(name="Test License"),
+#     ),
+#     public=True,
+#     permission_classes=(permissions.AllowAny,),
+# )
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
-
+    url(r'^', include('chatphone.urls')),
+    # re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]

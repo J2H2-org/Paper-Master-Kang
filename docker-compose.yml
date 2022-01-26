@@ -8,7 +8,7 @@ services:
     image: mongo
     volumes:
       - mongodb_data_dev:/data/db
-    restart: unless-stopped
+    restart: always
     ports:
       - "9017:27017"
     environment:
@@ -37,7 +37,7 @@ services:
         DJANGO_ALLOWED_HOSTS: "*"
         DJANGO_SECRET_KEY: "*"
         DJANGO_CORS_ORIGIN_WHITELIST: "*"
-    command: python manage.py runserver 127.0.0.1:8000
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     volumes:
