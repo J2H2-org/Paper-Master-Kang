@@ -24,7 +24,6 @@ class thesis_plan_col(models.Model):
     user_Id = models.IntegerField()
 
 
-# minhyeok
 class c_question_col(models.Model):
     c_question_id = models.AutoField(primary_key=True)
     c_que = models.TextField()
