@@ -42,10 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'chatphone.apps.ChatphoneConfig',
+    'chat_teesis.apps.ChatTeesisConfig',
     'corsheaders',
-    # 'drf_yasg', #TODO: 이거 도커에서 실행할 때 모듈을 못찾음 (로컬에서 runserver로 실행하면 실행됨)
+    'drf_yasg',
     'djongo',
-    'redistest',
 ]
 
 MIDDLEWARE = [
@@ -107,17 +107,6 @@ DATABASES = {
             'password': "temppw",
             'authSource': 'admin',
             'authMechanism': 'SCRAM-SHA-1'
-        }
-    }
-}
-
-# Cache
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",  # 1번 DB
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }
