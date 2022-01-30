@@ -13,7 +13,6 @@ class user_col(models.Model):
     career = models.CharField(max_length=128, blank=True)
     img_link = models.SlugField(max_length=128, blank=True)
 
-
 class thesis_plan_col(models.Model):
     thesis_plan_Id = models.BigAutoField(primary_key=True)
     subject = models.CharField(max_length=128)
@@ -22,3 +21,19 @@ class thesis_plan_col(models.Model):
     journal_tier = models.BooleanField()  # true : top tier
     purpose = models.CharField(max_length=32)
     user_Id = models.IntegerField()
+
+class mentor_answer_col(models.Model):
+    mentor_ans_Id = models.BigAutoField(primary_key=True)
+    mentor_ans = models.TextField()
+    mentee_question_Id = models.IntegerField()
+    date = models.DateTimeField(auto_now_add=True)
+    title = models.TextField()
+    user_Id = models.IntegerField()
+
+class mentee_question_col(models.Model):
+    mentee_qus_Id = models.BigAutoField(primary_key=True)
+    thesis_plan_Id = models.IntegerField()
+    date = models.DateTimeField(auto_now_add=True)
+    title = models.TextField()
+    mentee_qus = models.TextField()
+
