@@ -16,8 +16,8 @@ class TPSerializer(serializers.ModelSerializer):
 class MASerializer(serializers.ModelSerializer):
     class Meta:
         model = mentor_answer_col
-        fields = ('mentor_ans_Id','mentee_qus_Id','title', 'date','user_Id','mentor_ans')
+        fields = ('mentor_answer_Id','mentee_question_Id', 'date','user_Id','title','mentor_answer')
 class MQSerializer(serializers.ModelSerializer):
     class Meta:
         model = mentee_question_col
-        fields = ('thesis_plan_Id','mentee_qus_Id','title','date','mentee_que')
+        fields = ('thesis_plan_Id','mentee_question_Id','title','date','mentee_question')
