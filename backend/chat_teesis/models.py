@@ -15,7 +15,7 @@ class user_col(models.Model):
 
 
 class thesis_plan_col(models.Model):
-    thesis_plan_Id = models.BigAutoField(primary_key=True)
+    thesis_plan_Id = models.AutoField(primary_key=True)
     subject = models.CharField(max_length=128)
     schedule = models.IntegerField()
     on_domestic = models.BooleanField()  # true : on domestic
