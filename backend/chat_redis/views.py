@@ -1,5 +1,3 @@
-# views.py
-
 from django.http import JsonResponse
 from django.core.cache import cache
 

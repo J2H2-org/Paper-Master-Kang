@@ -19,7 +19,7 @@ class TPSerializer(serializers.ModelSerializer):
 class CQSerializer(serializers.ModelSerializer):
     class Meta:
         model = c_question_col
-        fields = ('c_question', 'c_que', 'que_classification_id')
+        fields = ('c_question_id', 'c_que', 'que_classification_id')
 
 
 class CASerializer(serializers.ModelSerializer):

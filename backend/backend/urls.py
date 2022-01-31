@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
     url(r'^', include('chatphone.urls')),
+    path('redis/', include('chat_redis.urls')),
 ]
 
 if settings.DEBUG:

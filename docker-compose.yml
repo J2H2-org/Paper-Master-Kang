@@ -26,9 +26,12 @@ services:
       - mongo
 
   redis:
+    container_name: redis
     image: redis
     ports:
       - "6379:6379"
+    restart: always
+
 
   backend:
     build:

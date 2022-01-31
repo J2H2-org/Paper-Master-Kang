@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_yasg',
     'djongo',
+    'chat_redis',
 ]
 
 MIDDLEWARE = [
@@ -113,6 +114,21 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        # "LOCATION": "redis://localhost:6379/1",  # 1번 DB
+        "LOCATION": "redis://redis:6379/1",  # 1번 DB
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

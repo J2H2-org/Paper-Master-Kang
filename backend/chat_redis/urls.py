@@ -1,11 +1,8 @@
-# urls.py
-
 from django.urls import path
-
 from .views import my_view
 
-app_name = "redistest"
+app_name = "chat_redis"
 
-urlpatterns = [  
+urlpatterns = [
     path('', my_view),
 ]

@@ -17,4 +17,7 @@ COPY requirements.txt /backend/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
+RUN apt-get update
+RUN apt-get install -y redis-server
+
 COPY . /backend/

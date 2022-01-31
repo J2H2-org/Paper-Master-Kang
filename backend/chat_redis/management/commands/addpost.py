@@ -1,9 +1,11 @@
+# management/commands/addpost.py
+
 from django.core.management.base import BaseCommand, CommandError
-from redistest.models import Post
+
+from chat_redis.models import Post
 
 
-
-class Command(BaseCommand):  
+class Command(BaseCommand):
     help = 'Add as many posts as you want'
 
     def add_arguments(self, parser):
@@ -13,6 +15,8 @@ class Command(BaseCommand):
         post_cnt = options['post_cnt']
         if post_cnt > 0:
             Post.objects.bulk_create(
-                [Post(text="Sample Text #{}".format(i)) for i in range(post_cnt)]
+                [Post(text="Sample Text #{}".format(i))
+                 for i in range(post_cnt)]
             )
-            self.stdout.write(self.style.SUCCESS('Successfully add {} posts'.format(post_cnt)))
+            self.stdout.write(self.style.SUCCESS(
+                'Successfully add {} posts'.format(post_cnt)))
