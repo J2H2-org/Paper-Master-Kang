@@ -8,5 +8,5 @@ venv
 /deploy/.terraform.tfstate.lock.info
 /deploy/terraform.tfstate
 /deploy/terraform.tfstate.backup
-
-docker-compose.prod.yml
+/backend/media/
+/backend/static/
