@@ -3,3 +3,10 @@ venv
 .env.prod
 /.vscode/
 /mongodb_data_dev/
+/deploy/keys/
+/deploy/.terraform.lock.hcl
+/deploy/.terraform.tfstate.lock.info
+/deploy/terraform.tfstate
+/deploy/terraform.tfstate.backup
+
+docker-compose.prod.yml
