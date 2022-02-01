@@ -1,4 +1,4 @@
-mongo-url = "mongodb://root:temppw@mongo1:27017/?directConnection=true"
+mongo-url = "mongodb://mongo1:27017,mongo2:27017,mongo3:27017/test?replicaSet=rp0"
 
 elasticsearch-urls = ["http://elasticsearch:9200"]
 
@@ -19,25 +19,25 @@ dropped-databases = false
 namespace-regex = "^test"
 direct-read-namespaces = ["test.title","test.log"]
 
-#[[mapping]]
-#namespace = "test.title"
-#index = "titel"
-#
-#[[mapping]]
-#namespace = "test.log"
-#index = "log"
-#
-#
-#
-#[[script]]
-#namespace = "test.title"
-#script = """
-#module.exports = function(doc) {
-#  var newdoc = {
-#     name : doc.name,
-#     director : doc.director,
-#     actors : doc.actors,
-#  }
-#  return newdoc;
-#}
-#"""
+[[mapping]]
+namespace = "test.title"
+index = "title"
+
+[[mapping]]
+namespace = "test.log"
+index = "log"
+
+
+
+[[script]]
+namespace = "test.title"
+script = """
+module.exports = function(doc) {
+  var newdoc = {
+     name : doc.name,
+     director : doc.director,
+     actors : doc.actors,
+  }
+  return newdoc;
+}
+"""

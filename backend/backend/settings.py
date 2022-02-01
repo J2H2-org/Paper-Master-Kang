@@ -101,7 +101,7 @@ DATABASES = {
         },
         'NAME': 'cp_items',
         'CLIENT': {
-            'host': 'mongo',
+            'host': 'mongo1',
             # 'host': 'localhost',
             # 'port': 9017,
             'username': 'root',
