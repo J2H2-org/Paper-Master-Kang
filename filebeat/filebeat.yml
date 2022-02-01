@@ -1,0 +1,31 @@
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+filebeat.autodiscover:
+   providers:
+     - type: docker
+       hints.enabled: true
+
+processors:
+ - add_cloud_metadata: ~
+
+#filebeat.inputs:
+#- type: log
+#  enabled: true
+#  paths:
+#    - /Users/choisujeong/J2H2-project/J2H2/backend/logs/*.log
+
+output:
+  logstash:
+    enabled: true
+    hosts: ["elasticsearch:9600"]
+
+#  elasticsearch:
+#    hosts: 'elk:9200'
+#    username: 'elastic'
+#    password: 'j2h2'
+
+setup.kibana:
+  host: 'elasticsearch:5601'
+  username: "elastic"
+  password: "j2h2"

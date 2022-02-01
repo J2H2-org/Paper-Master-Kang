@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_elasticsearch_dsl',
     'rest_framework',
     'chatphone.apps.ChatphoneConfig',
     'chat_teesis.apps.ChatTeesisConfig',
@@ -110,7 +111,6 @@ DATABASES = {
         }
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -137,7 +137,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = ['http://localhost:8000',
                          'http://localhost:8081',
-                         'http://localhost:9017',
+                         'http://localhost:27017',
                          'http://localhost:80',
                          'http://localhost']
 
@@ -160,3 +160,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}

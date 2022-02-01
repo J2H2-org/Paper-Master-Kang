@@ -1,0 +1,43 @@
+mongo-url = "mongodb://root:temppw@mongo1:27017/?directConnection=true"
+
+elasticsearch-urls = ["http://elasticsearch:9200"]
+
+elasticsearch-user = "elastic"
+elasticsearch-password = "j2h2"
+
+elasticsearch-max-conns = 4
+
+elasticsearch-max-seconds = 5
+
+elasticsearch-max-bytes = 8000000
+
+dropped-collections = false
+
+dropped-databases = false
+
+
+namespace-regex = "^test"
+direct-read-namespaces = ["test.title","test.log"]
+
+#[[mapping]]
+#namespace = "test.title"
+#index = "titel"
+#
+#[[mapping]]
+#namespace = "test.log"
+#index = "log"
+#
+#
+#
+#[[script]]
+#namespace = "test.title"
+#script = """
+#module.exports = function(doc) {
+#  var newdoc = {
+#     name : doc.name,
+#     director : doc.director,
+#     actors : doc.actors,
+#  }
+#  return newdoc;
+#}
+#"""
