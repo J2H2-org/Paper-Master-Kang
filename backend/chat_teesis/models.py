@@ -13,6 +13,7 @@ class user_col(models.Model):
     career = models.CharField(max_length=128, blank=True)
     img_link = models.SlugField(max_length=128, blank=True)
 
+
 class thesis_plan_col(models.Model):
     thesis_plan_Id = models.AutoField(primary_key=True)
     subject = models.CharField(max_length=128)
@@ -22,18 +23,19 @@ class thesis_plan_col(models.Model):
     purpose = models.CharField(max_length=32)
     user_Id = models.IntegerField()
 
+
 class mentor_answer_col(models.Model):
-    mentor_answer_Id = models.BigAutoField(primary_key=True)
+    mentor_answer_Id = models.AutoField(primary_key=True)
     mentor_answer = models.TextField()
     mentee_question_Id = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
     title = models.TextField()
     user_Id = models.IntegerField()
 
+
 class mentee_question_col(models.Model):
-    mentee_question_Id = models.BigAutoField(primary_key=True)
+    mentee_question_Id = models.AutoField(primary_key=True)
     thesis_plan_Id = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
     title = models.TextField()
     mentee_question = models.TextField()
-

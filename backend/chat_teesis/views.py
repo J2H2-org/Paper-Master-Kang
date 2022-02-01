@@ -11,13 +11,16 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = user_col.objects.all()
     serializer_class = UserSerializer
 
+
 class TPViewSet(viewsets.ModelViewSet):
     queryset = thesis_plan_col.objects.all()
     serializer_class = TPSerializer
 
+
 class MAViewSet(viewsets.ModelViewSet):
     queryset = mentor_answer_col.objects.all()
     serializer_class = MASerializer
+
 
 class MQViewSet(viewsets.ModelViewSet):
     queryset = mentee_question_col.objects.all()

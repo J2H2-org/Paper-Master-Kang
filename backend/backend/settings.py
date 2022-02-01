@@ -13,13 +13,15 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '$yx3jf3y@r)%g+479&f*&(8o9@%quk#zwf57i0w^*)y9_vx9ka'
 SECRET_KEY = os.getenv('SECRET_KEY', 'foo')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -41,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'chatphone.apps.ChatphoneConfig',
     'chat_teesis.apps.ChatTeesisConfig',
     'corsheaders',
     'drf_yasg',
@@ -83,8 +84,6 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# TODO DB설정 해야됨
-
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
@@ -98,13 +97,11 @@ DATABASES = {
                 }
             },
         },
-        'NAME': 'cp_items',
+        'NAME': os.environ.get('MONGO_NAME', 'teesis'),
         'CLIENT': {
-            'host': 'mongo',
-            # 'host': 'localhost',
-            # 'port': 9017,
-            'username': 'root',
-            'password': "temppw",
+            'host': os.environ.get('MONGO_HOST', 'mongo'),
+            'username': os.environ.get('MONGO_USER', 'root'),
+            'password': os.environ.get('MONGO_PASSWORD', 'temppw'),
             'authSource': 'admin',
             'authMechanism': 'SCRAM-SHA-1'
         }
@@ -137,7 +134,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = ['http://localhost:8000',
                          'http://localhost:8081',
-                         'http://localhost:9017',
+                         'http://localhost:27017',
                          'http://localhost:80',
                          'http://localhost']
 
@@ -160,3 +157,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Media files (User uploaded files)
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -20,11 +20,9 @@ from django.urls import path, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import routers, permissions
-from chatphone.views import ChatPhoneViewSet
 from chat_teesis.views import UserViewSet, TPViewSet, MAViewSet, MQViewSet
 
 router = routers.DefaultRouter()
-router.register('chatphones', ChatPhoneViewSet)
 router.register('users', UserViewSet)
 router.register('thesis_plans', TPViewSet)
 router.register('mentor_answer',MAViewSet)
@@ -46,7 +44,6 @@ schema_view = get_schema_view(
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
-    url(r'^', include('chatphone.urls')),
 ]
 
 if settings.DEBUG:

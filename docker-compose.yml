@@ -10,7 +10,7 @@ services:
       - mongodb_data_dev:/data/db
     restart: always
     ports:
-      - "9017:27017"
+      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: temppw
@@ -21,7 +21,7 @@ services:
     ports:
       - "9018:8081"
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://root:temppw@host.docker.internal:9017/
+      ME_CONFIG_MONGODB_URL: mongodb://root:temppw@host.docker.internal:27017/
     depends_on:
       - mongo
 
