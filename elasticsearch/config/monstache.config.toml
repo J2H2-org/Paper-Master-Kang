@@ -1,4 +1,4 @@
-mongo-url = "mongodb://mongo1:27017,mongo2:27017,mongo3:27017/test?replicaSet=rp0"
+mongo-url = "mongodb://mongo1:27017,mongo2:27017,mongo3:27017/primary?replicaSet=rp0"
 
 elasticsearch-urls = ["http://elasticsearch:9200"]
 
@@ -23,29 +23,23 @@ verbose = true
 resume = false
 #resume-name = "default"
 
-namespace-regex = "^test"
-direct-read-namespaces = ["test.title","test.log"]
+namespace-regex = "^primary"
+direct-read-namespaces = ["primary.chat_teesis_search_col"]
 
 
 [[mapping]]
-namespace = "test.title"
-index = "title"
-
-[[mapping]]
-namespace = "test.log"
-index = "log"
-
+namespace = "primary.chat_teesis_search_col"
+index = "search"
 
 
 
 [[script]]
-namespace = "test.title"
+namespace = "primary.chat_teesis_search_col"
 script = """
 module.exports = function(doc) {
   var newdoc = {
-     name : doc.name,
-     director : doc.director,
-     actors : doc.actors,
+     major : doc.major,
+     career : doc.career,
   }
   return newdoc;
 }
