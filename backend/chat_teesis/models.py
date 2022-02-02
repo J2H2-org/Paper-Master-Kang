@@ -39,3 +39,15 @@ class mentee_question_col(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     title = models.TextField()
     mentee_question = models.TextField()
+
+
+class c_question_col(models.Model):
+    c_question_id = models.AutoField(primary_key=True)
+    c_que = models.TextField()
+    que_classification_id = models.IntegerField()
+
+
+class c_answer_col(models.Model):
+    c_answer_id = models.AutoField(primary_key=True)
+    c_ans = models.TextField()
+    c_question_id = models.IntegerField()

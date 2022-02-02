@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 
-from .views import UserViewSet, TPViewSet, MAViewSet, MQViewSet
+from .views import UserViewSet, TPViewSet, MAViewSet, MQViewSet, CAViewSet, CQViewSet
 
 app_name = 'chat_teesis'
 
@@ -9,5 +9,7 @@ router.register('users', UserViewSet)
 router.register('thesis_plans', TPViewSet)
 router.register('mentor_answers', MAViewSet)
 router.register('mentee_questions', MQViewSet)
+router.register('c_questions', CQViewSet)
+router.register('c_answers', CAViewSet)
 
 urlpatterns = [] + router.urls
