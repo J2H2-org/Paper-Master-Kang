@@ -28,6 +28,8 @@ services:
     ports:
       - "27018:27017"
     command: mongod --replSet rp0
+    depends_on:
+      - mongo1
 
   mongo3:
     container_name: mongo3
@@ -39,6 +41,8 @@ services:
     ports:
       - "27019:27017"
     command: mongod --replSet rp0
+    depends_on:
+      - mongo2
 
   mongosetup:
     image: "setup-rspl"
@@ -46,6 +50,7 @@ services:
       - mongo1
 
   mongo-express:
+    container_name: mongo-express
     image: mongo-express
     restart: always
     ports:

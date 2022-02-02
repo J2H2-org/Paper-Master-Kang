@@ -14,10 +14,18 @@ elasticsearch-max-bytes = 8000000
 dropped-collections = false
 
 dropped-databases = false
-
+gzip = true
+#stats = true
+#index-stats = true
+#index-as-update = true
+verbose = true
+#replay = true
+resume = false
+#resume-name = "default"
 
 namespace-regex = "^test"
 direct-read-namespaces = ["test.title","test.log"]
+
 
 [[mapping]]
 namespace = "test.title"
@@ -26,6 +34,7 @@ index = "title"
 [[mapping]]
 namespace = "test.log"
 index = "log"
+
 
 
 

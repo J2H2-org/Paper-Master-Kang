@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 sleep 10 | echo Sleeping
 

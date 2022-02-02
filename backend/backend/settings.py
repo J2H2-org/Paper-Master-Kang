@@ -99,11 +99,35 @@ DATABASES = {
                 }
             },
         },
-        'NAME': 'cp_items',
+        'NAME': 'primary',
         'CLIENT': {
             'host': 'mongo1',
             # 'host': 'localhost',
-            # 'port': 9017,
+            # 'port': 27017,
+            'username': 'root',
+            'password': "temppw",
+            'authSource': 'admin',
+            'authMechanism': 'SCRAM-SHA-1'
+        }
+    },
+    'replica1':{
+        'NAME': 'replica1',
+        'ENFORCE_SCHEMA': True,
+        'ENGINE': 'djongo',
+        'CLIENT':{
+            'host': 'mongo2',
+            'username': 'root',
+            'password': "temppw",
+            'authSource': 'admin',
+            'authMechanism': 'SCRAM-SHA-1'
+        }
+    },
+    'replica2': {
+        'NAME': 'replica2',
+        'ENFORCE_SCHEMA': True,
+        'ENGINE': 'djongo',
+        'CLIENT': {
+            'host': 'mongo3',
             'username': 'root',
             'password': "temppw",
             'authSource': 'admin',
@@ -155,6 +179,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+DATABASE_ROUTERS = ['backend.datarouters.ReplicaRouter']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
