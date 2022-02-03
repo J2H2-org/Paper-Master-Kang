@@ -80,7 +80,7 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          echo "$ECR_REGISTRY / $ECR_REPOSITORY : $IMAGE_TAG"
+          chmod +x ./build-images.sh
           ./build-images.sh
           ./push-images.sh
       - name: Download task definition
