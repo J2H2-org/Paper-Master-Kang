@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t backend_ecr ./backend
+sudo docker build -t backend_ecr ./backend
