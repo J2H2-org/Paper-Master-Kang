@@ -82,6 +82,7 @@ jobs:
           # be deployed to ECS.
           chmod +x ./build-images.sh
           ./build-images.sh
+          chmod +x ./push-images.sh
           ./push-images.sh
       - name: Download task definition
         run: |
