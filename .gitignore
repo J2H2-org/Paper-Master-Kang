@@ -10,3 +10,4 @@ venv
 /deploy/terraform.tfstate.backup
 /backend/media/
 /backend/static/
+/docker-compose.aws.yml
