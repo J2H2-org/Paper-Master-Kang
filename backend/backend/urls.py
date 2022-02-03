@@ -19,16 +19,7 @@ from django.contrib import admin
 from django.urls import path, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
-from rest_framework import routers, permissions
-from chatphone.views import ChatPhoneViewSet
-from chat_teesis.views import UserViewSet, TPViewSet, CAViewSet, CQViewSet
-
-router = routers.DefaultRouter()
-router.register('chatphones', ChatPhoneViewSet)
-router.register('users', UserViewSet)
-router.register('thesis_plans', TPViewSet)
-router.register('c_questions', CQViewSet)
-router.register('c_answers', CAViewSet)
+from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -45,8 +36,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include(router.urls)),
-    url(r'^', include('chatphone.urls')),
+    url(r'api/v1/', include('chat_teesis.urls')),
     path('redis/', include('chat_redis.urls')),
 ]
 
