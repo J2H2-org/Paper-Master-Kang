@@ -93,12 +93,12 @@ jobs:
         with:
           task-definition: task-definition.json
           container-name: <container-name>
-          image: ${{ steps.build-image.outputs.image }}
+#          image: ${{ steps.build-image.outputs.image }}
         
-#      - name: Deploy Amazon ECS task definition
-#        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-#        with:
-#          task-definition: ${{ steps.task-def.outputs.task-definition }}
-#          service: <service-name>
-#          cluster: <cluster-name>
-#          wait-for-service-stability: true
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: <service-name>
+          cluster: <cluster-name>
+          wait-for-service-stability: true
