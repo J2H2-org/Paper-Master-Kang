@@ -93,13 +93,13 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: <container-name>
+          container-name: b0d8e83d20274e789c105515a67813b6
           image: ${{ steps.build-image.outputs.image }}
         
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: <service-name>
-          cluster: <cluster-name>
+          service: J2H2-main
+          cluster: J2H2-deploy-ecs
           wait-for-service-stability: true
