@@ -79,8 +79,9 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-            ./build-images.sh
-            ./push-images.sh
+          echo "$ECR_REGISTRY / $ECR_REPOSITORY : $IMAGE_TAG"
+          ./build-images.sh
+          ./push-images.sh
       - name: Download task definition
         run: |
           aws ecs describe-task-definition --task-definition taskdef --query taskDefinition > task-definition.json
