@@ -38,7 +38,7 @@ services:
   celery:
     image: django
     working_dir: /backend/
-    command: celery -A backend worker -l info
+    command: pip install --upgrade pip && pip install Celery && celery -A tasks worker -loglevel=info
     volumes:
       - ./backend/:/backend/
     environment:
