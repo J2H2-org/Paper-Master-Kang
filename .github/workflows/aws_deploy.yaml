@@ -67,7 +67,8 @@ jobs:
 
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        run: |
+          docker login -u AWS -p $(aws ecr-public get-login-password --region us-east-1) public.ecr.aws/p2k6s0s6
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
@@ -79,23 +80,26 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-            ./build-images.sh
-            ./push-images.sh
+          chmod +x ./build-images.sh
+          ./build-images.sh
+          chmod +x ./push-images.sh
+          ./push-images.sh
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition taskdef --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition deploy_taskdef --query taskDefinition > task-definition.json
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: <container-name>
+          container-name: backend
           image: ${{ steps.build-image.outputs.image }}
-
-#      - name: Deploy Amazon ECS task definition
-#        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-#        with:
-#          task-definition: ${{ steps.task-def.outputs.task-definition }}
-#          service: <service-name>
-#          cluster: <cluster-name>
-#          wait-for-service-stability: true
+        
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: J2H2-main
+          cluster: J2H2-deploy-ecs
+          wait-for-service-stability: true
