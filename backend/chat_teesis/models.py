@@ -42,9 +42,16 @@ class mentee_question_col(models.Model):
     title = models.TextField()
     mentee_question = models.TextField()
 
-class search_col(models.Model):
+class search_info_col(models.Model):
     using = 'default'
-    search_Id = models.AutoField(primary_key=True)
+    metee_Id = models.AutoField(primary_key=True)
     major = models.CharField(max_length=128, blank=True)
-    career = models.TextField(blank=True)
+    subject = models.TextField(blank=True)
+    tag = models.TextField(blank=True)
+
+
+
+
+
+
 

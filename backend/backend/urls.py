@@ -21,7 +21,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import routers, permissions
 from chatphone.views import ChatPhoneViewSet
-from chat_teesis.views import UserViewSet, TPViewSet, MAViewSet, MQViewSet, SearchViewSet
+from chat_teesis.views import UserViewSet, TPViewSet, MAViewSet, MQViewSet,SRViewSet
 
 router = routers.DefaultRouter()
 router.register('chatphones', ChatPhoneViewSet)
@@ -29,7 +29,8 @@ router.register('users', UserViewSet)
 router.register('thesis_plans', TPViewSet)
 router.register('mentor_answer',MAViewSet)
 router.register('mentee_question',MQViewSet)
-router.register('search',SearchViewSet)
+router.register('search',SRViewSet)
+
 
 schema_view = get_schema_view(
     openapi.Info(

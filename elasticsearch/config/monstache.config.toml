@@ -32,7 +32,6 @@ namespace = "primary.chat_teesis_search_col"
 index = "search"
 
 
-
 [[script]]
 namespace = "primary.chat_teesis_search_col"
 script = """
