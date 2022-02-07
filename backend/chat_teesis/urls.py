@@ -1,6 +1,7 @@
 from rest_framework.routers import DefaultRouter
+from django.urls import include, path
 
-from .views import UserViewSet, TPViewSet, MAViewSet, MQViewSet, CAViewSet, CQViewSet
+from .views import UserViewSet, TPViewSet, MAViewSet, MQViewSet, CAViewSet, CQViewSet, SRViewSet
 
 app_name = 'chat_teesis'
 
@@ -12,4 +13,7 @@ router.register('mentee_questions', MQViewSet)
 router.register('c_questions', CQViewSet)
 router.register('c_answers', CAViewSet)
 
-urlpatterns = [] + router.urls
+urlpatterns = [
+    path('search', SRViewSet.as_view(), name="search"),
+    path('',include(router.urls)),
+]

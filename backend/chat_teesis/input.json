@@ -1,0 +1,10 @@
+{"index": {"_index": "search_info", "_id": 1}}
+{"mentee_id": "1", "major": "산업공학과", "subject": "스마트 시티 물류", "tag": ["산업공학", "물류"]}
+{"index": {"_index": "search_info", "_id": 2}}
+{"mentee_id": "2", "major": "경영학과", "subject": "기업의 ESG 활동이 기업 이미지, 지각된 가격 공정성 및 소비자 반응에 미치는 영향", "tag": ["경영", "ESG"]}
+{"index": {"_index": "search_info", "_id": 3}}
+{"mentee_id": "3", "major": "경영학과", "subject": "리더십을 활용한 기업 경쟁력을 높이는 방법에 관한 연구", "tag": ["경영", "리더십"]}
+{"index": {"_index": "search_info", "_id": 4}}
+{"mentee_id": "4", "major": "컴퓨터 공학과", "subject": "다양한 딥러닝 알고리즘과 활용", "tag": ["컴퓨터", "딥러닝"]}
+{"index": {"_index": "search_info", "_id": 5}}
+{"mentee_id": "5", "major": "컴퓨터 공학과", "subject": "인공지능 챗봇 알고리즘에 대한 몇 가지 법적 고찰", "tag": ["컴퓨터", "알고리즘", "챗봇"]}
