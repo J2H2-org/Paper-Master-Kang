@@ -181,8 +181,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# ELASTICSEARCH_DSL = {
-#     'default': {
-#         'hosts': 'localhost:9200'
-#     },
-# }
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'elasticsearch:9200'
+    },
+}
