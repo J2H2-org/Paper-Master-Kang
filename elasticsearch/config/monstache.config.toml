@@ -24,21 +24,23 @@ resume = false
 #resume-name = "default"
 
 namespace-regex = "^teesis"
-direct-read-namespaces = ["teesis."]
+direct-read-namespaces = ["teesis.search_info_col"]
 
 
 [[mapping]]
-namespace = "primary.chat_teesis_search_col"
+namespace = "teesis.search_info_col"
 index = "search"
 
 
 [[script]]
-namespace = "primary.chat_teesis_search_col"
+namespace = "teesis.search_info_col"
 script = """
 module.exports = function(doc) {
   var newdoc = {
+     user_Id : doc.user_Id,
      major : doc.major,
-     career : doc.career,
+     subject : doc.subject,
+     tag : doc.tag,
   }
   return newdoc;
 }

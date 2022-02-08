@@ -49,12 +49,27 @@ class SRViewSet(APIView):
 
         if not search:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'search word param is missing'})
-        docs = es.search(index='search_info',
+        if type(search) == int:
+            docs = es.search(index='teesis.search_data',
+                                    body={
+                                        "query":{
+                                            "match":{
+                                                "user_Id":search
+                                            }
+                                        }
+                                    })
+            data_list = []
+            for data in docs['hits']['hits']:
+                data_list.append(data.get('_source'))
+
+            return Response({'data': data_list}, status=200)
+        else:
+            docs = es.search(index='teesis.search_data',
                          body={
                              "query": {
                                  "multi_match": {
                                      "query": search,
-                                     "fields": ["user_Id","major", "subject", "tag"]
+                                     "fields": ["major", "subject", "tag"]
                                  },
                              }
                          })
@@ -63,7 +78,7 @@ class SRViewSet(APIView):
             data_list.append(data.get('_source'))
 
         return Response({'data': data_list}, status=200)
-
+    
 class SDViewSet(viewsets.ModelViewSet):
     queryset = search_info_col.objects.all()
     serializer_class = SDSerializer
