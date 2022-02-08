@@ -53,6 +53,7 @@ class c_answer_col(models.Model):
     c_question_id = models.IntegerField()
 
 class search_info_col(models.Model):
+    using='default'
     user_Id = models.IntegerField()
     major = models.CharField(max_length=128, blank=True)
     subject = models.CharField(max_length=128, blank=True)

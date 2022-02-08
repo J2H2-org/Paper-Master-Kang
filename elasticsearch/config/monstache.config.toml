@@ -1,0 +1,45 @@
+mongo-url = "mongodb://mongo1:27017,mongo2:27017,mongo3:27017/teesis?replicaSet=rp0"
+
+elasticsearch-urls = ["http://elasticsearch:9200"]
+
+elasticsearch-user = "elastic"
+elasticsearch-password = "j2h2"
+
+elasticsearch-max-conns = 4
+
+elasticsearch-max-seconds = 5
+
+elasticsearch-max-bytes = 8000000
+
+dropped-collections = false
+
+dropped-databases = false
+gzip = true
+#stats = true
+#index-stats = true
+#index-as-update = true
+verbose = true
+#replay = true
+resume = false
+#resume-name = "default"
+
+namespace-regex = "^teesis"
+direct-read-namespaces = ["teesis."]
+
+
+[[mapping]]
+namespace = "primary.chat_teesis_search_col"
+index = "search"
+
+
+[[script]]
+namespace = "primary.chat_teesis_search_col"
+script = """
+module.exports = function(doc) {
+  var newdoc = {
+     major : doc.major,
+     career : doc.career,
+  }
+  return newdoc;
+}
+"""
