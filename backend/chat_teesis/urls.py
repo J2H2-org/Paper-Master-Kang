@@ -14,6 +14,6 @@ router.register('c_questions', CQViewSet)
 router.register('c_answers', CAViewSet)
 
 urlpatterns = [
-    path('search/<slug:search>', SRViewSet.as_view(), name="search"),
+    path('search/<slug>/', SRViewSet.as_view(), name="search"),
     path('', include(router.urls)),
 ]

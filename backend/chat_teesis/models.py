@@ -51,3 +51,4 @@ class c_answer_col(models.Model):
     c_answer_id = models.AutoField(primary_key=True)
     c_ans = models.TextField()
     c_question_id = models.IntegerField()
+

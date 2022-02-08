@@ -43,12 +43,9 @@ class CAViewSet(viewsets.ModelViewSet):
 
 class SRViewSet(APIView):
 
-    def get(self, request):
-
-        es = Elasticsearch(hosts='elasticsearch', port=9200)
-
-        # search = "컴퓨터"
-        search = request.query_params.get('search')
+    def get(self, request, **kwargs):
+        es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic','j2h2'))
+        search = kwargs['slug']
 
         if not search:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'search word param is missing'})
@@ -57,7 +54,7 @@ class SRViewSet(APIView):
                              "query": {
                                  "multi_match": {
                                      "query": search,
-                                     "fields": ["major", "subject", "tag"]
+                                     "fields": ["user_Id","major", "subject", "tag"]
                                  },
                              }
                          })
