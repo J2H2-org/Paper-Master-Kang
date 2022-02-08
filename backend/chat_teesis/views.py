@@ -7,8 +7,8 @@ from rest_framework.response import Response
 from elasticsearch import Elasticsearch
 from rest_framework.views import APIView
 
-from .models import user_col, thesis_plan_col, mentor_answer_col, mentee_question_col, c_answer_col, c_question_col
-from .serializers import UserSerializer, TPSerializer, MASerializer, MQSerializer, CASerializer, CQSerializer
+from .models import user_col, thesis_plan_col, mentor_answer_col, mentee_question_col, c_answer_col, c_question_col, search_info_col
+from .serializers import UserSerializer, TPSerializer, MASerializer, MQSerializer, CASerializer, CQSerializer, SDSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -63,3 +63,8 @@ class SRViewSet(APIView):
             data_list.append(data.get('_source'))
 
         return Response({'data': data_list}, status=200)
+
+class SDViewSet(viewsets.ModelViewSet):
+    queryset = search_info_col.objects.all()
+    serializer_class = SDSerializer
+

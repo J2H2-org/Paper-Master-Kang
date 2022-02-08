@@ -52,3 +52,8 @@ class c_answer_col(models.Model):
     c_ans = models.TextField()
     c_question_id = models.IntegerField()
 
+class search_info_col(models.Model):
+    user_Id = models.IntegerField()
+    major = models.CharField(max_length=128, blank=True)
+    subject = models.CharField(max_length=128, blank=True)
+    tag = models.CharField(max_length=128, blank=True)
