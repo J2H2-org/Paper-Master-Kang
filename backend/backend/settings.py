@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'mongo': {
         'ENGINE': 'djongo',
         'ENFORCE_SCHEMA': True,
         'LOGGING': {
@@ -107,6 +107,14 @@ DATABASES = {
             'authSource': 'admin',
             'authMechanism': 'SCRAM-SHA-1'
         }
+    },
+    'default': {
+        'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get('SQL_DATABASE', os.path.join(BASE_DIR, 'db.sqlite3')),
+        'USER': os.environ.get('SQL_USER', 'eg_user'),
+        'PASSWORD': os.environ.get('SQL_PASSWORD', 'eg_pw'),
+        'HOST': os.environ.get('SQL_HOST', 'eg_db'),
+        'PORT': os.environ.get('SQL_PORT', '5432'),
     }
 }
 

@@ -1,10 +1,13 @@
-from django.shortcuts import render
-
 # Create your views here.
+from requests import request
 from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
-from .models import user_col, thesis_plan_col, mentor_answer_col, mentee_question_col, c_answer_col, c_question_col
-from .serializers import UserSerializer, TPSerializer, MASerializer, MQSerializer, CASerializer, CQSerializer
+from .models import user_col, thesis_plan_col, mentor_answer_col, mentee_question_col, c_answer_col, c_question_col, \
+    answer_col
+from .serializers import UserSerializer, TPSerializer, MASerializer, MQSerializer, CASerializer, CQSerializer, \
+    ACSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -35,3 +38,15 @@ class CQViewSet(viewsets.ModelViewSet):
 class CAViewSet(viewsets.ModelViewSet):
     queryset = c_answer_col.objects.all()
     serializer_class = CASerializer
+
+
+class ACViewSet(viewsets.ModelViewSet):
+    queryset = answer_col.objects.all()
+    serializer_class = ACSerializer
+
+
+@api_view(['GET', 'POST'])
+def search_UserViewSet(request, user_Id):
+    if request.method == 'GET':
+        return Response({"message": "Hello {} world!".format(user_Id)})
+    return Response({"message": "Hello world!"})
