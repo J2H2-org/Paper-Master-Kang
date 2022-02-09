@@ -18,7 +18,13 @@ function second_page_sh(){
   document.getElementById("btn_submit").style.display="block";
 }
 
-function second_page(){
+function join_exit(){
+  if(confirm("기록된 내용은 저장되지 않습니다. 정말 나가시겠습니까?")){
+    window.close();
+  }
+}
+
+function check_page(){
   var u_name = document.getElementById("u_name");
   var u_id = document.getElementById("u_id");
   var u_pwd = document.getElementById("u_pwd");
@@ -101,16 +107,6 @@ function form_check(){
   return true;
 };
 
-function select_email(){
-  var email_dns = document.getElementById("email_dns");
-  var email_sel = document.getElementById("email_sel");
-
-  var idx = email_sel.options.selectedIndex;
-  var rtn_val = email_sel.options[idx].value;
-
-  email_dns.value = rtn_val;
-};
-
 let joinHTML = '';
 joinHTML += `
   <style type="text/css">
@@ -128,7 +124,9 @@ joinHTML += `
     .addr1{width: 350px; margin-bottom: 24px;}
     .addr2{width: 350px;}
     .btn_submit{float:left; margin-right:8px; width: 80px;height: 26px;border: 1px solid #999;font-size: 14px;box-sizing: border-box; padding: 0; background: #eee;}
-    .btn_back{width: 80px;height: 26px;border: 1px solid #999;font-size: 14px;box-sizing: border-box; padding: 0; background: #eee;}
+    .btn_back{float:left; margin-right:8px; width: 80px;height: 26px;border: 1px solid #999;font-size: 14px;box-sizing: border-box; padding: 0; background: #eee;}
+    .btn_next{float:left; margin-right:8px; width: 80px;height: 26px;border: 1px solid #999;font-size: 14px;box-sizing: border-box; padding: 0; background: #eee;}
+    .btn_exit{float:left; width: 80px;height: 26px;border: 1px solid #999;font-size: 14px;box-sizing: border-box; padding: 0; background: #eee;}
   </style>
 
   <form name="join_form" action="" method="get" onsubmit="return form_check()">
@@ -220,9 +218,10 @@ joinHTML += `
     </div>
 
       <p>
-        <button type="button" class="btn_next" id="btn_next" onclick="second_page()">다음</button>
+        <button type="button" class="btn_next" id="btn_next" onclick="check_page()">다음</button>
         <button type="submit" class="btn_submit" id="btn_submit">가입하기</button>
         <button type="button" class="btn_back" id="btn_back" onclick="first_page_sh()">이전</button>
+        <button type="button" class="btn_exit" id="btn_exit" onclick="join_exit()">취소</button>
       </p>
   </fieldset>
   </form>
