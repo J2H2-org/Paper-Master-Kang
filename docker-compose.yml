@@ -1,19 +1,56 @@
 version: "3"
 
 volumes:
-  mongodb_data_dev: {}
+  mongodb_data_dev1: { }
+  mongodb_data_dev2: { }
+  mongodb_data_dev3: { }
+  elasticsearch:
 
 services:
-  mongo:
-    image: mongo
+  mongo1:
+    container_name: mongo1
+    hostname: mongo1
+    image: mongo:latest
     volumes:
-      - mongodb_data_dev:/data/db
+      - mongodb_data_dev1:/data/db
     restart: always
     ports:
       - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: temppw
+    command: mongod --replSet replication
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: temppw
+
+  mongo2:
+    container_name: mongo2
+    hostname: mongo2
+    image: mongo:latest
+    volumes:
+      - mongodb_data_dev2:/data/db
+    restart: always
+    ports:
+      - "27018:27017"
+    command: mongod --replSet replication
+    depends_on:
+      - mongo1
+
+  mongo3:
+    container_name: mongo3
+    hostname: mongo3
+    image: mongo:latest
+    volumes:
+      - mongodb_data_dev3:/data/db
+    restart: always
+    ports:
+      - "27019:27017"
+    command: mongod --replSet replication
+    depends_on:
+      - mongo2
+
+  mongosetup:
+    image: "setup-rspl"
+    depends_on:
+      - mongo1
 
   mongo-express:
     image: mongo-express
@@ -21,9 +58,9 @@ services:
     ports:
       - "9018:8081"
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://root:temppw@host.docker.internal:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://host.docker.internal:27017/
     depends_on:
-      - mongo
+      - mongo1
 
   redis:
     image: redis
@@ -47,5 +84,51 @@ services:
     env_file:
       - ./settings/dev/.env.dev
     depends_on:
-      - mongo
+      - mongo1
       - redis
+
+  elasticsearch:
+    container_name: elasticsearch
+    build:
+      context: elasticsearch/
+      args:
+        ELK_VERSION: 7.16.3
+#    image: elasticsearch:7.16.3
+    restart: always
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,z
+      - elasticsearch:/usr/share/elasticsearch/data:z
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTIC_PASSWORD: j2h2
+      discovery.type: single-node
+
+  kibana:
+    container_name: kibana
+    image: kibana:7.16.3
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,z
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
+  monstache:
+    container_name: monstache
+    restart: always
+    image: rwynn/monstache:6.7.4
+    command: -f ./monstache.config.toml &
+    volumes:
+      - ./elasticsearch/config/monstache.config.toml:/monstache.config.toml
+    depends_on:
+      - elasticsearch
+      - mongo1
+      - mongo2
+      - mongo3
+    links:
+      - elasticsearch
+    ports:
+      - "8080:8080"
