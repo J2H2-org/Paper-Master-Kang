@@ -7,6 +7,7 @@ from django.db import models as rdbms
 
 # Create your models here.
 
+
 class user_col(rdbms.Model):
     user_Id = rdbms.AutoField(primary_key=True)
     name = rdbms.CharField(max_length=64, default='신규 회원', blank=True)
@@ -50,3 +51,11 @@ class answer_col(mongo.Model):
     answer_Id = mongo.AutoField(primary_key=True)
     title = mongo.CharField(max_length=128)
     answer_text = mongo.TextField(blank=True)
+
+    
+class search_info_col(models.Model):
+    using = 'default'
+    user_Id = models.IntegerField()
+    major = models.CharField(max_length=128, blank=True)
+    subject = models.CharField(max_length=128, blank=True)
+    tag = models.CharField(max_length=128, blank=True)
