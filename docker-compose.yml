@@ -1,10 +1,13 @@
 version: "3"
 
 volumes:
+  mongodb_data_dev: { }
+  postgres_data_dev: { }
   mongodb_data_dev1: { }
   mongodb_data_dev2: { }
   mongodb_data_dev3: { }
   elasticsearch:
+
 
 services:
   mongo1:
@@ -62,10 +65,21 @@ services:
     depends_on:
       - mongo1
 
-  redis:
-    image: redis
+  db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: "eg_user"
+      POSTGRES_PASSWORD: "eg_pw"
+      POSTGRES_DB: "eg_db"
     ports:
-      - "6379:6379"
+      - "5432:5432"
+
+  #  redis:
+  #    image: redis
+  #    ports:
+  #      - "6379:6379"
 
   backend:
     build:
@@ -84,8 +98,84 @@ services:
     env_file:
       - ./settings/dev/.env.dev
     depends_on:
-      - mongo1
+      - mongo
       - redis
+
+  node-exporter:
+    image: prom/node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - --collector.filesystem.ignored-mount-points
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+    ports:
+      - "9100:9100"
+    restart: always
+    deploy:
+      mode: global
+
+  alertmanager:
+    image: prom/alertmanager
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    restart: always
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+
+  cadvisor:
+    image: google/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - "8081:8080"
+    restart: always
+    deploy:
+      mode: global
+      restart_policy:
+          condition: on-failure
+
+  prometheus:
+    image: prom/prometheus:latest
+    restart: always
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    links:
+      - cadvisor:cadvisor
+      - alertmanager:alertmanager
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - ./prometheus/data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: always
+    user: "472"
+    container_name: grafana
+    depends_on:
+      - prometheus
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - grafana/config.monitoring
 
   elasticsearch:
     container_name: elasticsearch

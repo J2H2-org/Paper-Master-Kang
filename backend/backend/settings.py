@@ -30,7 +30,7 @@ DEBUG = int(os.getenv('DEBUG', 1))
 if os.getenv('DJANGO_ALLOWED_HOSTS'):
     ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS').split(' ')
 else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', 'backend']
 
 # Application definition
 
@@ -48,9 +48,11 @@ INSTALLED_APPS = [
     'drf_yasg',
     'djongo',
     'chat_redis',
+    'django_prometheus',
 ]
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -60,7 +62,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -110,7 +112,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 DATABASES = {
-    'default': {
+    'mongo': {
         'ENGINE': 'djongo',
         'ENFORCE_SCHEMA': True,
         'LOGGING': {
@@ -156,6 +158,14 @@ DATABASES = {
             # 'authSource': 'admin',
             # 'authMechanism': 'SCRAM-SHA-1'
         }
+    },
+    'default': {
+        'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get('SQL_DATABASE', os.path.join(BASE_DIR, 'db.sqlite3')),
+        'USER': os.environ.get('SQL_USER', 'eg_user'),
+        'PASSWORD': os.environ.get('SQL_PASSWORD', 'eg_pw'),
+        'HOST': os.environ.get('SQL_HOST', 'eg_db'),
+        'PORT': os.environ.get('SQL_PORT', '5432'),
     }
 }
 
