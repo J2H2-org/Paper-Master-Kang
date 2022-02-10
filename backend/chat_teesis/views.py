@@ -1,13 +1,14 @@
 # Create your views here.
+import json
+
+from django.http import HttpResponse
 from requests import request
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import user_col, thesis_plan_col, mentor_answer_col, mentee_question_col, c_answer_col, c_question_col, \
-    answer_col
-from .serializers import UserSerializer, TPSerializer, MASerializer, MQSerializer, CASerializer, CQSerializer, \
-    ACSerializer
+from .models import user_col, thesis_plan_col, mentor_answer_col, mentee_question_col, answer_col
+from .serializers import UserSerializer, TPSerializer, MASerializer, MQSerializer, ACSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -30,23 +31,15 @@ class MQViewSet(viewsets.ModelViewSet):
     serializer_class = MQSerializer
 
 
-class CQViewSet(viewsets.ModelViewSet):
-    queryset = c_question_col.objects.all()
-    serializer_class = CQSerializer
-
-
-class CAViewSet(viewsets.ModelViewSet):
-    queryset = c_answer_col.objects.all()
-    serializer_class = CASerializer
-
-
 class ACViewSet(viewsets.ModelViewSet):
     queryset = answer_col.objects.all()
     serializer_class = ACSerializer
 
 
 @api_view(['GET', 'POST'])
-def search_UserViewSet(request, user_Id):
-    if request.method == 'GET':
-        return Response({"message": "Hello {} world!".format(user_Id)})
+def search_UserViewSet(requests):
+    if requests.method == 'GET':
+        body = json.loads(requests.body)
+
+        return Response(body)
     return Response({"message": "Hello world!"})

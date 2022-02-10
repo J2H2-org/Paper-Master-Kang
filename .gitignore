@@ -10,6 +10,7 @@ venv
 /deploy/terraform.tfstate.backup
 /backend/media/
 /backend/static/
-/docker-compose.aws.yml
 /backend/secrets.json
 /k3s_config.yaml
+/grafana/config.monitoring
+/prometheus/data/

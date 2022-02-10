@@ -46,18 +46,6 @@ class mentee_question_col(rdbms.Model):
     user_Id = rdbms.ForeignKey("user_col", related_name="MQ_user_Id", on_delete=rdbms.CASCADE, db_column="user_Id")
 
 
-class c_question_col(rdbms.Model):
-    c_question_Id = rdbms.AutoField(primary_key=True)
-    c_que = rdbms.TextField()
-    que_classification_Id = rdbms.IntegerField()
-
-
-class c_answer_col(rdbms.Model):
-    c_answer_Id = rdbms.AutoField(primary_key=True)
-    c_ans = rdbms.TextField()
-    c_question_Id = rdbms.IntegerField()
-
-
 class answer_col(mongo.Model):
     answer_Id = mongo.AutoField(primary_key=True)
     title = mongo.CharField(max_length=128)

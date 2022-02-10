@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import user_col, thesis_plan_col, mentor_answer_col, mentee_question_col, c_answer_col, c_question_col, \
-    answer_col
+from .models import user_col, thesis_plan_col, mentor_answer_col, mentee_question_col, answer_col
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -29,18 +28,6 @@ class MQSerializer(serializers.ModelSerializer):
         model = mentee_question_col
         fields = ('thesis_plan_Id', 'mentee_question_Id',
                   'title', 'date', 'mentee_question')
-
-
-class CQSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = c_question_col
-        fields = ('c_question_Id', 'c_que', 'que_classification_Id')
-
-
-class CASerializer(serializers.ModelSerializer):
-    class Meta:
-        model = c_answer_col
-        fields = ('c_answer_Id', 'c_ans', 'c_question_Id')
 
 
 class ACSerializer(serializers.ModelSerializer):

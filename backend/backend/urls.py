@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'api/v1/', include('chat_teesis.urls')),
     path('redis/', include('chat_redis.urls')),
+    url('', include('django_prometheus.urls')),
 ]
 
 # if settings.DEBUG:
