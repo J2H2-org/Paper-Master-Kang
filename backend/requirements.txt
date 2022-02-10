@@ -11,3 +11,7 @@ pycodestyle==2.7.0
 
 drf-yasg==1.20.0
 whitenoise
+
+django-elasticsearch-dsl
+elasticsearch==7.16.3
+

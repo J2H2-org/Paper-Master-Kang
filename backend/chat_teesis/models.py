@@ -1,4 +1,4 @@
-from djongo import models as mongo
+#from djongo import models as mongo
 from django.db import models as rdbms
 
 
@@ -58,7 +58,13 @@ class c_answer_col(rdbms.Model):
     c_question_Id = rdbms.IntegerField()
 
 
-class answer_col(mongo.Model):
-    answer_Id = mongo.AutoField(primary_key=True)
-    title = mongo.CharField(max_length=128)
-    answer_text = mongo.TextField(blank=True)
+class answer_col(rdbms.Model):
+    answer_Id = rdbms.AutoField(primary_key=True)
+    title = rdbms.CharField(max_length=128)
+    answer_text = rdbms.TextField(blank=True)
+
+
+class search_info_col(rdbms.Model):
+    search_info_Id = rdbms.AutoField(primary_key=True)
+    major = rdbms.CharField(max_length=128, blank=True)
+    subject = rdbms.CharField(max_length=128, blank=True)

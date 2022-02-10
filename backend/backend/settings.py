@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'chat_teesis.apps.ChatTeesisConfig',
+    'django_elasticsearch_dsl',
+    # 'django_elasticsearch_dsl_drf',
     'corsheaders',
     'drf_yasg',
     'djongo',
@@ -87,27 +89,27 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'mongo': {
-        'ENGINE': 'djongo',
-        'ENFORCE_SCHEMA': True,
-        'LOGGING': {
-            'version': 1,
-            'loggers': {
-                'djongo': {
-                    'level': 'DEBUG',
-                    'propogate': False,
-                }
-            },
-        },
-        'NAME': os.environ.get('MONGO_NAME', 'teesis'),
-        'CLIENT': {
-            'host': os.environ.get('MONGO_HOST', 'mongo'),
-            'username': os.environ.get('MONGO_USER', 'root'),
-            'password': os.environ.get('MONGO_PASSWORD', 'temppw'),
-            'authSource': 'admin',
-            'authMechanism': 'SCRAM-SHA-1'
-        }
-    },
+    # 'mongo': {
+    #     'ENGINE': 'djongo',
+    #     'ENFORCE_SCHEMA': True,
+    #     'LOGGING': {
+    #         'version': 1,
+    #         'loggers': {
+    #             'djongo': {
+    #                 'level': 'DEBUG',
+    #                 'propogate': False,
+    #             }
+    #         },
+    #     },
+    #     'NAME': os.environ.get('MONGO_NAME', 'teesis'),
+    #     'CLIENT': {
+    #         'host': os.environ.get('MONGO_HOST', 'mongo'),
+    #         'username': os.environ.get('MONGO_USER', 'root'),
+    #         'password': os.environ.get('MONGO_PASSWORD', 'temppw'),
+    #         'authSource': 'admin',
+    #         'authMechanism': 'SCRAM-SHA-1'
+    #     }
+    # },
     'default': {
         'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.sqlite3'),
         'NAME': os.environ.get('SQL_DATABASE', os.path.join(BASE_DIR, 'db.sqlite3')),
@@ -187,3 +189,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': 'elasticsearch:9200'
+    },
+}

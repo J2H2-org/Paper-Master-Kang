@@ -3,31 +3,35 @@ version: "3"
 volumes:
   mongodb_data_dev: {}
   postgres_data_dev: {}
+  elasticsearch:
 
 services:
-  mongo:
-    image: mongo
-    volumes:
-      - mongodb_data_dev:/data/db
-    restart: always
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: temppw
-
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - "9018:8081"
-    environment:
-      ME_CONFIG_MONGODB_URL: mongodb://root:temppw@host.docker.internal:27017/
-    depends_on:
-      - mongo
+#  mongo:
+#    container_name: mongo
+#    image: mongo:latest
+#    volumes:
+#      - mongodb_data_dev:/data/db
+#    restart: always
+#    ports:
+#      - "27017:27017"
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: temppw
+#
+#  mongo-express:
+#    container_name: mongo-express
+#    image: mongo-express
+#    restart: always
+#    ports:
+#      - "9018:8081"
+#    environment:
+#      ME_CONFIG_MONGODB_URL: mongodb://root:temppw@host.docker.internal:27017/
+#    depends_on:
+#      - mongo
 
   db:
     image: postgres:12.0-alpine
+    container_name: postgres
     volumes:
       - postgres_data_dev:/var/lib/postgresql/data/
     environment:
@@ -43,6 +47,7 @@ services:
 #      - "6379:6379"
 
   backend:
+    container_name: backend
     build:
       context: ./backend
       args:
@@ -86,3 +91,57 @@ services:
       - ./datasource.yml:/etc/grafana/provisioning/datasource.yml
     env_file:
       - ./config.monitoring
+
+  elasticsearch:
+    container_name: elasticsearch
+    build:
+      context: elasticsearch/
+      args:
+        ELK_VERSION: 7.16.3
+    #    image: elasticsearch:7.16.3
+    restart: always
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,z
+      - elasticsearch:/usr/share/elasticsearch/data:z
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTIC_PASSWORD: j2h2
+      discovery.type: single-node
+
+  kibana:
+    container_name: kibana
+    image: kibana:7.16.3
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,z
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
+  logstash:
+    container_name: logstash
+    build:
+      context: logstash/
+      args:
+        ELK_VERSION: 7.16.3
+#    image: logstash:7.16.3
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,z
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro,z
+    ports:
+      - "5001:5001/tcp"
+      - "5001:5001/udp"
+      - "9600:9600"
+    environment:
+      LOGSTASH_JDBC_URL: jdbc:postgresql://postgres:5432/eg_db
+      LOGSTASH_JDBC_DRIVER: org.postgresql.Driver
+      LOGSTASH_JDBC_DRIVER_JAR_LOCATION: /usr/share/logstash/postgresql-42.2.23.jar
+      LOGSTASH_JDBC_USERNAME: eg_user
+      LOGSTASH_JDBC_PASSWORD: eg_pw
+      LOGSTASH_ELASTICSEARCH_HOST: http://elasticsearch:9200
+#      LS_JAVA_OPTS: "Xmx256m -Xms256m"
+    depends_on:
+      - elasticsearch
