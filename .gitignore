@@ -14,3 +14,4 @@ venv
 /k3s_config.yaml
 /grafana/config.monitoring
 /prometheus/data/
+/grafana/data/

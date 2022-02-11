@@ -40,7 +40,7 @@ class ACViewSet(viewsets.ModelViewSet):
     serializer_class = ACSerializer
 
 
-@api_view(['GET', 'POST'])
+@api_view()
 def search_UserViewSet(requests):
     if requests.method == 'GET':
         body = json.loads(requests.body)
