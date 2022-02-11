@@ -7,12 +7,12 @@ from .views import UserViewSet, TPViewSet, MAViewSet, MQViewSet, ACViewSet, sear
 app_name = 'chat_teesis'
 
 router = DefaultRouter()
-router.register('users', UserViewSet)
-router.register('thesis-plans', TPViewSet)
-router.register('mentor-answers', MAViewSet)
-router.register('mentee-questions', MQViewSet)
-router.register('answer', ACViewSet)
+router.register('/users', UserViewSet)
+router.register('/plans', TPViewSet)
+router.register('/answers/mento', MAViewSet)
+router.register('/questions', MQViewSet)
+router.register('/answers/tables', ACViewSet)
 
 urlpatterns = [
-                  url(r's_users/', search_UserViewSet),
+                  url(r'users/', search_UserViewSet),
               ] + router.urls
