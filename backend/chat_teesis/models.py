@@ -1,5 +1,6 @@
 #from djongo import models as mongo
 from django.db import models as rdbms
+from elasticsearch import Elasticsearch
 
 
 # from djangotoolbox.fields import SetField
@@ -64,7 +65,11 @@ class answer_col(rdbms.Model):
     answer_text = rdbms.TextField(blank=True)
 
 
-class search_info_col(rdbms.Model):
-    search_info_Id = rdbms.AutoField(primary_key=True)
-    major = rdbms.CharField(max_length=128, blank=True)
-    subject = rdbms.CharField(max_length=128, blank=True)
+# class search_info_col(rdbms.Model):
+#     search_info_Id = rdbms.AutoField(primary_key=True)
+#     user_Id = rdbms.IntegerField()
+#     major = rdbms.CharField(max_length=128, blank=True)
+#     subject = rdbms.CharField(max_length=128, blank=True)
+
+
+

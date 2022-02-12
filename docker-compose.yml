@@ -64,8 +64,8 @@ services:
     env_file:
       - ./settings/dev/.env.dev
     depends_on:
-      - mongo
-      - redis
+      - db
+#      - redis
 
   prometheus:
     image: prom/prometheus:latest
@@ -121,27 +121,27 @@ services:
     depends_on:
       - elasticsearch
 
-  logstash:
-    container_name: logstash
-    build:
-      context: logstash/
-      args:
-        ELK_VERSION: 7.16.3
-#    image: logstash:7.16.3
-    volumes:
-      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,z
-      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro,z
-    ports:
-      - "5001:5001/tcp"
-      - "5001:5001/udp"
-      - "9600:9600"
-    environment:
-      LOGSTASH_JDBC_URL: jdbc:postgresql://postgres:5432/eg_db
-      LOGSTASH_JDBC_DRIVER: org.postgresql.Driver
-      LOGSTASH_JDBC_DRIVER_JAR_LOCATION: /usr/share/logstash/postgresql-42.2.23.jar
-      LOGSTASH_JDBC_USERNAME: eg_user
-      LOGSTASH_JDBC_PASSWORD: eg_pw
-      LOGSTASH_ELASTICSEARCH_HOST: http://elasticsearch:9200
-#      LS_JAVA_OPTS: "Xmx256m -Xms256m"
-    depends_on:
-      - elasticsearch
+#  logstash:
+#    container_name: logstash
+#    build:
+#      context: logstash/
+#      args:
+#        ELK_VERSION: 7.16.3
+##    image: logstash:7.16.3
+#    volumes:
+#      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,z
+#      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro,z
+#    ports:
+#      - "5001:5001/tcp"
+#      - "5001:5001/udp"
+#      - "9600:9600"
+#    environment:
+#      LOGSTASH_JDBC_URL: jdbc:postgresql://postgres:5432/eg_db
+#      LOGSTASH_JDBC_DRIVER: org.postgresql.Driver
+#      LOGSTASH_JDBC_DRIVER_JAR_LOCATION: /usr/share/logstash/postgresql-42.2.23.jar
+#      LOGSTASH_JDBC_USERNAME: eg_user
+#      LOGSTASH_JDBC_PASSWORD: eg_pw
+#      LOGSTASH_ELASTICSEARCH_HOST: http://elasticsearch:9200
+##      LS_JAVA_OPTS: "Xmx256m -Xms256m"
+#    depends_on:
+#      - elasticsearch

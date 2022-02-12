@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import user_col, thesis_plan_col, mentor_answer_col, mentee_question_col, c_answer_col, c_question_col, \
-    answer_col, search_info_col
+    answer_col
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -49,7 +49,7 @@ class ACSerializer(serializers.ModelSerializer):
         fields = ['answer_Id', 'title', 'answer_text']
 
 
-class SDSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = search_info_col
-        fields = ('search_info_Id', 'major', 'subject')
+# class SDSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = search_info_col
+#         fields = ('search_info_Id', 'user_Id','major', 'subject')
