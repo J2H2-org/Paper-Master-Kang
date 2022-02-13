@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'chat_teesis.apps.ChatTeesisConfig',
+    'django_elasticsearch_dsl',
+    # 'django_elasticsearch_dsl_drf',
     'corsheaders',
     'drf_yasg',
     'djongo',
@@ -88,29 +90,6 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'djongo',
-#         'ENFORCE_SCHEMA': True,
-#         'LOGGING': {
-#             'version': 1,
-#             'loggers': {
-#                 'djongo': {
-#                     'level': 'DEBUG',
-#                     'propogate': False,
-#                 }
-#             },
-#         },
-#         'NAME': os.environ.get('MONGO_NAME', 'teesis'),
-#         'CLIENT': {
-#             'host': os.environ.get('MONGO_HOST', 'mongo'),
-#             'username': os.environ.get('MONGO_USER', 'root'),
-#             'password': os.environ.get('MONGO_PASSWORD', 'temppw'),
-#             'authSource': 'admin',
-#             'authMechanism': 'SCRAM-SHA-1'
-#         }
-#     }
-# }
 DATABASES = {
     # 'mongo': {
     #     'ENGINE': 'djongo',
@@ -124,39 +103,13 @@ DATABASES = {
     #             }
     #         },
     #     },
-    #     'NAME': 'teesis',
+    #     'NAME': os.environ.get('MONGO_NAME', 'teesis'),
     #     'CLIENT': {
-    #         'host': 'mongo1',
-    #         # 'host': 'localhost',
-    #         # 'port': 27017,
-    #         # 'username': 'root',
-    #         # 'password': "temppw",
-    #         # 'authSource': 'admin',
-    #         # 'authMechanism': 'SCRAM-SHA-1'
-    #     }
-    # },
-    # 'replica1': {
-    #     'NAME': 'replica1',
-    #     'ENFORCE_SCHEMA': True,
-    #     'ENGINE': 'djongo',
-    #     'CLIENT': {
-    #         'host': 'mongo2',
-    #         # 'username': 'root',
-    #         # 'password': "temppw",
-    #         # 'authSource': 'admin',
-    #         # 'authMechanism': 'SCRAM-SHA-1'
-    #     }
-    # },
-    # 'replica2': {
-    #     'NAME': 'replica2',
-    #     'ENFORCE_SCHEMA': True,
-    #     'ENGINE': 'djongo',
-    #     'CLIENT': {
-    #         'host': 'mongo3',
-    #         # 'username': 'root',
-    #         # 'password': "temppw",
-    #         # 'authSource': 'admin',
-    #         # 'authMechanism': 'SCRAM-SHA-1'
+    #         'host': os.environ.get('MONGO_HOST', 'mongo'),
+    #         'username': os.environ.get('MONGO_USER', 'root'),
+    #         'password': os.environ.get('MONGO_PASSWORD', 'temppw'),
+    #         'authSource': 'admin',
+    #         'authMechanism': 'SCRAM-SHA-1'
     #     }
     # },
     'default': {
@@ -238,5 +191,3 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-DATABASE_ROUTERS = ['backend.datarouters.ReplicaRouter']

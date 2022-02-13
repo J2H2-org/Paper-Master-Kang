@@ -1,5 +1,6 @@
-from djongo import models as mongo
+#from djongo import models as mongo
 from django.db import models as rdbms
+from elasticsearch import Elasticsearch
 
 
 # from djangotoolbox.fields import SetField
