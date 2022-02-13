@@ -60,7 +60,7 @@ class SRViewSet(APIView):
         for data in docs['hits']['hits']:
             data_list.append(data.get('_source'))
 
-        return Response({'data': data_list}, status=200)
+        return Response({'data': data_list})
 
     def post(self, request):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
@@ -91,7 +91,7 @@ class SDViewSet(APIView):
         for data in docs['hits']['hits']:
             data_list.append(data.get('_source'))
 
-        return Response({'data': data_list},status=200)
+        return Response({'data': data_list})
 
     def delete(self, request, **kwargs):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
@@ -115,7 +115,7 @@ class SDViewSet(APIView):
         for data in docs_1['hits']['hits']:
             data_list.append(data)
                 # .get('_source')
-        return Response(data_list)
+        return Response({'data': data_list})
 
 
 class SIViewSet(APIView):
@@ -179,7 +179,7 @@ class SA2ViewSet(APIView):
         for data in docs['hits']['hits']:
             data_list.append(data.get('_source'))
 
-        return Response({'data': data_list}, status=200)
+        return Response({'data': data_list})
 
     def post(self, request):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
