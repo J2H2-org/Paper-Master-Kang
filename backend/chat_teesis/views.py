@@ -46,9 +46,9 @@ class SearchQtoAViewSet(APIView):
         return Response({"message": "Hello world!"})
 
 
-class SRViewSet(APIView): #엘라스틱서치 학과/주제 전체검색 및 등록
+class SRViewSet(APIView):  # 엘라스틱서치 학과/주제 전체검색 및 등록
 
-    def get(self,request):
+    def get(self, request):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
         docs = es.search(index='search_1',
                          body={
@@ -69,7 +69,7 @@ class SRViewSet(APIView): #엘라스틱서치 학과/주제 전체검색 및 등
         return HttpResponse(request.body)
 
 
-class SDViewSet(APIView): #엘라스틱서치 학과/주제 검색어로 검색
+class SDViewSet(APIView):  # 엘라스틱서치 학과/주제 검색어로 검색
     def get(self, request, **kwargs):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
         search = kwargs['search_word']
@@ -77,16 +77,16 @@ class SDViewSet(APIView): #엘라스틱서치 학과/주제 검색어로 검색
         if not search:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'search word param is missing'})
         docs = es.search(index='search_1',
-                            body={
-                                "from": 0,
-                                "size": 3,
-                                 "query": {
-                                     "multi_match": {
-                                         "query": search,
-                                         "fields": ["major", "subject"]
-                                     },
-                                 }
-                             })
+                         body={
+                             "from": 0,
+                             "size": 3,
+                             "query": {
+                                 "multi_match": {
+                                     "query": search,
+                                     "fields": ["major", "subject"]
+                                 },
+                             }
+                         })
         data_list = []
         for data in docs['hits']['hits']:
             data_list.append(data.get('_source'))
@@ -94,9 +94,8 @@ class SDViewSet(APIView): #엘라스틱서치 학과/주제 검색어로 검색
         return Response({'data': data_list})
 
 
-class SIViewSet(APIView): #엘라스틱서치 학과/주제 Id로 검색 및 삭제
-    def get(self,request,**kwargs):
-
+class SIViewSet(APIView):  # 엘라스틱서치 학과/주제 Id로 검색 및 삭제
+    def get(self, request, **kwargs):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
         search = kwargs['mentee_question_Id']
 
@@ -114,7 +113,7 @@ class SIViewSet(APIView): #엘라스틱서치 학과/주제 Id로 검색 및 삭
 
         return Response({'data': data_list}, status=200)
 
-    def delete(self, request, **kwargs): #멘티아이디로 document 삭제
+    def delete(self, request, **kwargs):  # 멘티아이디로 document 삭제
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
         mentee_question_Id = kwargs['mentee_question_Id']
         doc = {"query": {
@@ -126,10 +125,8 @@ class SIViewSet(APIView): #엘라스틱서치 학과/주제 Id로 검색 및 삭
         docs = es.delete_by_query(index='search_1', doc_type="_doc", body=doc)
         return Response(True)
 
-class SAViewSet(APIView): #엘라스틱서치 답변 검색어 검색
-    def get(self,request,**kwargs):
 
-class SAViewSet(APIView):
+class SAViewSet(APIView):  # 엘라스틱서치 답변 검색어 검색
     def get(self, request, **kwargs):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
         search = kwargs['search_word']
@@ -153,8 +150,7 @@ class SAViewSet(APIView):
         return Response({'data': data_list})
 
 
-
-class SA2ViewSet(APIView): #엘라스틱서치 답변 전체검색 및 등록
+class SA2ViewSet(APIView):  # 엘라스틱서치 답변 전체검색 및 등록
 
     def get(self, request):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
@@ -176,9 +172,10 @@ class SA2ViewSet(APIView): #엘라스틱서치 답변 전체검색 및 등록
         es.index(index='search_2', body=request.body)
         return HttpResponse(request.body)
 
-class MAIViewSet(APIView): #질문 아이디로 답변검색
 
-    def get(self,request,**kwargs):
+class MAIViewSet(APIView):  # 질문 아이디로 답변검색
+
+    def get(self, request, **kwargs):
         queryset = mentor_answer_col.objects.all()
         mentee_question_Id = kwargs['mentee_question_Id']
 
@@ -188,9 +185,10 @@ class MAIViewSet(APIView): #질문 아이디로 답변검색
         data_list = serializers.serialize('json', queryset)
         return HttpResponse(data_list, content_type="text/json-comment-filtered")
 
-class UAViewSet(APIView): #유저 아이디로 답변검색
 
-    def get(self,request,**kwargs):
+class UAViewSet(APIView):  # 유저 아이디로 답변검색
+
+    def get(self, request, **kwargs):
         queryset = mentor_answer_col.objects.all()
         user_Id = kwargs['user_Id']
 
@@ -200,9 +198,10 @@ class UAViewSet(APIView): #유저 아이디로 답변검색
         data_list = serializers.serialize('json', queryset)
         return HttpResponse(data_list, content_type="text/json-comment-filtered")
 
-class UQViewSet(APIView): #유저 아이디로 질문검색
 
-    def get(self,request,**kwargs):
+class UQViewSet(APIView):  # 유저 아이디로 질문검색
+
+    def get(self, request, **kwargs):
         queryset = mentee_question_col.objects.all()
         user_Id = kwargs['user_Id']
 
@@ -213,6 +212,3 @@ class UQViewSet(APIView): #유저 아이디로 질문검색
         return HttpResponse(data_list, content_type="text/json-comment-filtered")
 
 # class GMIViewSet(APIView): #검색된 멘티 아이디 받아서 db로 보내주기
-
-
-
