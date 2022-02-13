@@ -83,6 +83,7 @@ class SDViewSet(APIView):
                             body={
                                 "from": 0,
                                 "size": 2,
+
                                  "query": {
                                      "multi_match": {
                                          "query": search,
@@ -151,6 +152,7 @@ class SAViewSet(APIView):
                          body={
                              "from": 0,
                              "size": 1,
+                             "min_score": 3.0,
                              "query": {
                                  "multi_match": {
                                      "query": search,
