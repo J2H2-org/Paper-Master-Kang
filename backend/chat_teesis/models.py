@@ -45,17 +45,3 @@ class mentee_question_col(rdbms.Model):
     title = rdbms.TextField()
     mentee_question = rdbms.TextField()
     user_Id = rdbms.ForeignKey("user_col", related_name="MQ_user_Id", on_delete=rdbms.CASCADE, db_column="user_Id")
-
-
-class answer_col(mongo.Model):
-    answer_Id = mongo.AutoField(primary_key=True)
-    title = mongo.CharField(max_length=128)
-    answer_text = mongo.TextField(blank=True)
-
-    
-class search_info_col(models.Model):
-    using = 'default'
-    user_Id = models.IntegerField()
-    major = models.CharField(max_length=128, blank=True)
-    subject = models.CharField(max_length=128, blank=True)
-    tag = models.CharField(max_length=128, blank=True)

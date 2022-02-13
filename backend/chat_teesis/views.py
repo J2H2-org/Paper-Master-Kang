@@ -7,12 +7,12 @@ from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from elasticsearch import Elasticsearch
+# from elasticsearch import Elasticsearch
 from rest_framework.views import APIView
 
 
-from .models import user_col, thesis_plan_col, mentor_answer_col, mentee_question_col, answer_col, search_info_col
-from .serializers import UserSerializer, TPSerializer, MASerializer, MQSerializer, ACSerializer, SDSerializer
+from .models import user_col, thesis_plan_col, mentor_answer_col, mentee_question_col
+from .serializers import UserSerializer, TPSerializer, MASerializer, MQSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -35,23 +35,13 @@ class MQViewSet(viewsets.ModelViewSet):
     serializer_class = MQSerializer
 
 
-class ACViewSet(viewsets.ModelViewSet):
-    queryset = answer_col.objects.all()
-    serializer_class = ACSerializer
+class SearchQtoAViewSet (APIView):
+    def get(self, request):
+        if request.method == 'GET':
+            body = json.loads(request.body)
 
-
-@api_view()
-def search_UserViewSet(requests):
-    if requests.method == 'GET':
-        body = json.loads(requests.body)
-
-        return Response(body)
-    return Response({"message": "Hello world!"})
-
-  
-class CAViewSet(viewsets.ModelViewSet):
-    queryset = c_answer_col.objects.all()
-    serializer_class = CASerializer
+            return Response(body)
+        return Response({"message": "Hello world!"})
 
 
 class SRViewSet(APIView):
@@ -91,8 +81,3 @@ class SRViewSet(APIView):
             data_list.append(data.get('_source'))
 
         return Response({'data': data_list}, status=200)
-
-
-class SDViewSet(viewsets.ModelViewSet):
-    queryset = search_info_col.objects.all()
-    serializer_class = SDSerializer

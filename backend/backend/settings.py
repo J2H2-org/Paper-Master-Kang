@@ -112,53 +112,53 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 DATABASES = {
-    'mongo': {
-        'ENGINE': 'djongo',
-        'ENFORCE_SCHEMA': True,
-        'LOGGING': {
-            'version': 1,
-            'loggers': {
-                'djongo': {
-                    'level': 'DEBUG',
-                    'propogate': False,
-                }
-            },
-        },
-        'NAME': 'teesis',
-        'CLIENT': {
-            'host': 'mongo1',
-            # 'host': 'localhost',
-            # 'port': 27017,
-            # 'username': 'root',
-            # 'password': "temppw",
-            # 'authSource': 'admin',
-            # 'authMechanism': 'SCRAM-SHA-1'
-        }
-    },
-    'replica1':{
-        'NAME': 'replica1',
-        'ENFORCE_SCHEMA': True,
-        'ENGINE': 'djongo',
-        'CLIENT':{
-            'host': 'mongo2',
-            # 'username': 'root',
-            # 'password': "temppw",
-            # 'authSource': 'admin',
-            # 'authMechanism': 'SCRAM-SHA-1'
-        }
-    },
-    'replica2': {
-        'NAME': 'replica2',
-        'ENFORCE_SCHEMA': True,
-        'ENGINE': 'djongo',
-        'CLIENT': {
-            'host': 'mongo3',
-            # 'username': 'root',
-            # 'password': "temppw",
-            # 'authSource': 'admin',
-            # 'authMechanism': 'SCRAM-SHA-1'
-        }
-    },
+    # 'mongo': {
+    #     'ENGINE': 'djongo',
+    #     'ENFORCE_SCHEMA': True,
+    #     'LOGGING': {
+    #         'version': 1,
+    #         'loggers': {
+    #             'djongo': {
+    #                 'level': 'DEBUG',
+    #                 'propogate': False,
+    #             }
+    #         },
+    #     },
+    #     'NAME': 'teesis',
+    #     'CLIENT': {
+    #         'host': 'mongo1',
+    #         # 'host': 'localhost',
+    #         # 'port': 27017,
+    #         # 'username': 'root',
+    #         # 'password': "temppw",
+    #         # 'authSource': 'admin',
+    #         # 'authMechanism': 'SCRAM-SHA-1'
+    #     }
+    # },
+    # 'replica1': {
+    #     'NAME': 'replica1',
+    #     'ENFORCE_SCHEMA': True,
+    #     'ENGINE': 'djongo',
+    #     'CLIENT': {
+    #         'host': 'mongo2',
+    #         # 'username': 'root',
+    #         # 'password': "temppw",
+    #         # 'authSource': 'admin',
+    #         # 'authMechanism': 'SCRAM-SHA-1'
+    #     }
+    # },
+    # 'replica2': {
+    #     'NAME': 'replica2',
+    #     'ENFORCE_SCHEMA': True,
+    #     'ENGINE': 'djongo',
+    #     'CLIENT': {
+    #         'host': 'mongo3',
+    #         # 'username': 'root',
+    #         # 'password': "temppw",
+    #         # 'authSource': 'admin',
+    #         # 'authMechanism': 'SCRAM-SHA-1'
+    #     }
+    # },
     'default': {
         'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.sqlite3'),
         'NAME': os.environ.get('SQL_DATABASE', os.path.join(BASE_DIR, 'db.sqlite3')),
@@ -207,7 +207,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ALLOW_METHODS = ['DELETE','GET','OPTIONS','PATCH','POST','PUT']
 
 CORS_ORIGIN_WHITELIST = ['http://localhost:8000',
-                         'http://localhost:8081',
+                         'http://localhost:18081',
                          'http://localhost:27017',
                          'http://localhost:80',
                          'http://localhost']

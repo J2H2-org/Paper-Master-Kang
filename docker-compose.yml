@@ -10,60 +10,60 @@ volumes:
 
 
 services:
-  mongo1:
-    container_name: mongo1
-    hostname: mongo1
-    image: mongo:latest
-    volumes:
-      - mongodb_data_dev1:/data/db
-    restart: always
-    ports:
-      - "27017:27017"
-    command: mongod --replSet replication
+#  mongo1:
+#    container_name: mongo1
+#    hostname: mongo1
+#    image: mongo:latest
+#    volumes:
+#      - mongodb_data_dev1:/data/db
+#    restart: always
+#    ports:
+#      - "27017:27017"
+#    command: mongod --replSet replication
+##    environment:
+##      MONGO_INITDB_ROOT_USERNAME: root
+##      MONGO_INITDB_ROOT_PASSWORD: temppw
+#
+#  mongo2:
+#    container_name: mongo2
+#    hostname: mongo2
+#    image: mongo:latest
+#    volumes:
+#      - mongodb_data_dev2:/data/db
+#    restart: always
+#    ports:
+#      - "27018:27017"
+#    command: mongod --replSet replication
+#    depends_on:
+#      - mongo1
+#
+#  mongo3:
+#    container_name: mongo3
+#    hostname: mongo3
+#    image: mongo:latest
+#    volumes:
+#      - mongodb_data_dev3:/data/db
+#    restart: always
+#    ports:
+#      - "27019:27017"
+#    command: mongod --replSet replication
+#    depends_on:
+#      - mongo2
+#
+#  mongosetup:
+#    image: "setup-rspl"
+#    depends_on:
+#      - mongo1
+#
+#  mongo-express:
+#    image: mongo-express
+#    restart: always
+#    ports:
+#      - "9018:8081"
 #    environment:
-#      MONGO_INITDB_ROOT_USERNAME: root
-#      MONGO_INITDB_ROOT_PASSWORD: temppw
-
-  mongo2:
-    container_name: mongo2
-    hostname: mongo2
-    image: mongo:latest
-    volumes:
-      - mongodb_data_dev2:/data/db
-    restart: always
-    ports:
-      - "27018:27017"
-    command: mongod --replSet replication
-    depends_on:
-      - mongo1
-
-  mongo3:
-    container_name: mongo3
-    hostname: mongo3
-    image: mongo:latest
-    volumes:
-      - mongodb_data_dev3:/data/db
-    restart: always
-    ports:
-      - "27019:27017"
-    command: mongod --replSet replication
-    depends_on:
-      - mongo2
-
-  mongosetup:
-    image: "setup-rspl"
-    depends_on:
-      - mongo1
-
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - "9018:8081"
-    environment:
-      ME_CONFIG_MONGODB_URL: mongodb://host.docker.internal:27017/
-    depends_on:
-      - mongo1
+#      ME_CONFIG_MONGODB_URL: mongodb://host.docker.internal:27017/
+#    depends_on:
+#      - mongo1
 
   db:
     image: postgres:12.0-alpine
@@ -97,9 +97,9 @@ services:
       - 8000
     env_file:
       - ./settings/dev/.env.dev
-    depends_on:
-      - mongo
-      - redis
+#    depends_on:
+#      - mongo
+#      - redis
 
   node-exporter:
     image: prom/node-exporter
@@ -113,7 +113,7 @@ services:
       - --collector.filesystem.ignored-mount-points
       - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
     ports:
-      - "9100:9100"
+      - "19100:9100"
     restart: always
     deploy:
       mode: global
@@ -121,7 +121,7 @@ services:
   alertmanager:
     image: prom/alertmanager
     ports:
-      - "9093:9093"
+      - "19093:9093"
     volumes:
       - ./alertmanager/:/etc/alertmanager/
     restart: always
@@ -137,7 +137,7 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
     ports:
-      - "8081:8080"
+      - "18081:8080"
     restart: always
     deploy:
       mode: global
@@ -149,7 +149,7 @@ services:
     restart: always
     container_name: prometheus
     ports:
-      - "9090:9090"
+      - "19090:9090"
     links:
       - cadvisor:cadvisor
       - alertmanager:alertmanager
@@ -170,7 +170,7 @@ services:
     depends_on:
       - prometheus
     ports:
-      - "3001:3000"
+      - "13001:3000"
     volumes:
       - ./grafana/data:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
@@ -205,20 +205,20 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
-
-  monstache:
-    container_name: monstache
-    restart: always
-    image: rwynn/monstache:6.7.4
-    command: -f ./monstache.config.toml &
-    volumes:
-      - ./elasticsearch/config/monstache.config.toml:/monstache.config.toml
-    depends_on:
-      - elasticsearch
-      - mongo1
-      - mongo2
-      - mongo3
-    links:
-      - elasticsearch
-    ports:
-      - "8080:8080"
+#
+#  monstache:
+#    container_name: monstache
+#    restart: always
+#    image: rwynn/monstache:6.7.4
+#    command: -f ./monstache.config.toml &
+#    volumes:
+#      - ./elasticsearch/config/monstache.config.toml:/monstache.config.toml
+#    depends_on:
+#      - elasticsearch
+#      - mongo1
+#      - mongo2
+#      - mongo3
+#    links:
+#      - elasticsearch
+#    ports:
+#      - "8080:8080"
