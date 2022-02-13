@@ -39,17 +39,17 @@ es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2
 
 
 #
-search_path = "/Users/choisujeong/J2H2-project/J2H2/backend/chat_teesis/"
-with open(search_path+"bulk.json", encoding='utf-8') as json_file:
-    json_data = json.loads(json_file.read())
-body = ""
-
-for i in json_data:
-    body = body + json.dumps({"index": {"_index": "search_2"}})+ '\n'
-    body = body + json.dumps(i, ensure_ascii=False) + '\n'
-
-    f = open(search_path + 'input3.json', 'w')
-    f.write(body)
-    f.close()
-
-    es.bulk(body)
+# search_path = "/Users/choisujeong/J2H2-project/J2H2/backend/chat_teesis/"
+# with open(search_path+"bulk.json", encoding='utf-8') as json_file:
+#     json_data = json.loads(json_file.read())
+# body = ""
+#
+# for i in json_data:
+#     body = body + json.dumps({"index": {"_index": "search_2"}})+ '\n'
+#     body = body + json.dumps(i, ensure_ascii=False) + '\n'
+#
+#     f = open(search_path + 'input3.json', 'w')
+#     f.write(body)
+#     f.close()
+#
+#     es.bulk(body)
