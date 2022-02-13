@@ -4,7 +4,8 @@ volumes:
   mongodb_data_dev: {}
   postgres_data_dev: {}
   elasticsearch:
-
+  grafana_volume:
+    external: true
 
 services:
 #  mongo:
@@ -139,7 +140,7 @@ services:
     ports:
       - "13001:3000"
     volumes:
-      - ./grafana/data:/var/lib/grafana
+      - grafana_volume:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     env_file:
       - grafana/config.monitoring

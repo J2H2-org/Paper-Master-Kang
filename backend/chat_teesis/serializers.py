@@ -28,4 +28,4 @@ class MQSerializer(serializers.ModelSerializer):
     class Meta:
         model = mentee_question_col
         fields = ('thesis_plan_Id', 'mentee_question_Id',
-                  'title', 'date', 'mentee_question')
+                  'title', 'date', 'mentee_question', 'user_Id')

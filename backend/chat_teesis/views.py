@@ -12,7 +12,6 @@ from elasticsearch import Elasticsearch
 from rest_framework.views import APIView
 from django.http import HttpResponse, JsonResponse
 
-
 from .models import user_col, thesis_plan_col, mentor_answer_col, mentee_question_col
 from .serializers import UserSerializer, TPSerializer, MASerializer, MQSerializer
 
@@ -37,7 +36,7 @@ class MQViewSet(viewsets.ModelViewSet):
     serializer_class = MQSerializer
 
 
-class SearchQtoAViewSet (APIView):
+class SearchQtoAViewSet(APIView):
     def get(self, request):
         if request.method == 'GET':
             body = json.loads(request.body)
@@ -45,9 +44,10 @@ class SearchQtoAViewSet (APIView):
             return Response(body)
         return Response({"message": "Hello world!"})
 
+
 class SRViewSet(APIView):
 
-    def get(self,request):
+    def get(self, request):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
         docs = es.search(index='search_1',
                          body={
@@ -76,17 +76,17 @@ class SDViewSet(APIView):
         if not search:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'search word param is missing'})
         docs = es.search(index='search_1',
-                            body={
-                                # "from": 0,
-                                # "size": 1,
-                                "min_score": 3.0,
-                                 "query": {
-                                     "multi_match": {
-                                         "query": search,
-                                         "fields": ["major", "subject"]
-                                     },
-                                 }
-                             })
+                         body={
+                             # "from": 0,
+                             # "size": 1,
+                             "min_score": 3.0,
+                             "query": {
+                                 "multi_match": {
+                                     "query": search,
+                                     "fields": ["major", "subject"]
+                                 },
+                             }
+                         })
         data_list = []
         for data in docs['hits']['hits']:
             data_list.append(data.get('_source'))
@@ -104,43 +104,42 @@ class SDViewSet(APIView):
         }
         docs = es.delete_by_query(index='search_1', doc_type="_doc", body=doc)
         docs_1 = es.search(index='search_1',
-                         body={
-                             "query": {
-                                 "match_all": {
-                                 }
-                             }
-                         }
-                        )
+                           body={
+                               "query": {
+                                   "match_all": {
+                                   }
+                               }
+                           }
+                           )
         data_list = []
         for data in docs_1['hits']['hits']:
             data_list.append(data)
-                # .get('_source')
+            # .get('_source')
         return Response({'data': data_list})
 
 
 class SIViewSet(APIView):
-    def get(self,request,**kwargs):
-
+    def get(self, request, **kwargs):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
         search = kwargs['slug']
 
         docs = es.search(index='search_1',
-                             body={
-                                 "query": {
-                                     "match": {
-                                         "mentee_question_Id": search
-                                     }
+                         body={
+                             "query": {
+                                 "match": {
+                                     "mentee_question_Id": search
                                  }
-                             })
+                             }
+                         })
         data_list = []
         for data in docs['hits']['hits']:
             data_list.append(data.get('_source'))
 
         return Response({'data': data_list})
 
-class SAViewSet(APIView):
-    def get(self,request,**kwargs):
 
+class SAViewSet(APIView):
+    def get(self, request, **kwargs):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
         search = kwargs['slug']
 
@@ -153,8 +152,8 @@ class SAViewSet(APIView):
                                  "multi_match": {
                                      "query": search,
                                      "fields": ["title", "contents"]
+                                 }
                              }
-                         }
                          })
         data_list = []
         for data in docs['hits']['hits']:
@@ -163,10 +162,9 @@ class SAViewSet(APIView):
         return Response({'data': data_list})
 
 
-
 class SA2ViewSet(APIView):
 
-    def get(self,request):
+    def get(self, request):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
         docs = es.search(index='search_2',
                          body={

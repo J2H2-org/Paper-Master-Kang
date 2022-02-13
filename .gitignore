@@ -11,3 +11,7 @@ venv
 /grafana/data/
 /settings/prod/.env.elastic
 /kibana/config/kibana.yml
+
+.idea/deployment.xml
+
+.idea/webServers.xml

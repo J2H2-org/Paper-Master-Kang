@@ -13,9 +13,7 @@ router.register('answers', MAViewSet)
 router.register('questions', MQViewSet)
 
 urlpatterns = [
-    path('search/<slug>/', SRViewSet.as_view(), name="search"),
     path('', include(router.urls)),
-    path('questions/answers/<slug:mentee_question_Id>', SearchQtoAViewSet.as_view()),
     path('mentee-questions/search/', SRViewSet.as_view(), name="search"),
     path('mentee-questions/search/<slug>/', SDViewSet.as_view(), name="search-data"),
     path('mentee-questions/search/ID/<slug>/', SIViewSet.as_view(), name="search-data"),

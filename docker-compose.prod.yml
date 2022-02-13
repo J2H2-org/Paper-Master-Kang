@@ -5,6 +5,7 @@ volumes:
   elasticsearch_volume: null
   static_volume: null
   media_volume: null
+  grafana_volume: null
 
 services:
   db:
@@ -100,19 +101,13 @@ services:
       - '--web.console.templates=/usr/share/prometheus/consoles'
 
   grafana:
-    image: grafana/grafana:latest
-    restart: always
-    user: "472"
+    build:
+      context: ./grafana
     container_name: grafana
-    depends_on:
-      - prometheus
     ports:
-      - "3001:3000"
+      - "8082:3000"
     volumes:
-      - ./grafana/data:/var/lib/grafana
-      - ./grafana/provisioning/:/etc/grafana/provisioning/
-    env_file:
-      - grafana/config.monitoring
+      - grafana_volume:/var/lib/grafana
 
   elasticsearch:
     container_name: elasticsearch
@@ -134,15 +129,15 @@ services:
     env_file:
       - ./settings/prod/.env.elastic
 
-  kibana:
-    container_name: kibana
-    image: kibana:7.16.3
-    volumes:
-      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,z
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
+#  kibana:
+#    container_name: kibana
+#    image: kibana:7.16.3
+#    volumes:
+#      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,z
+#    ports:
+#      - "5601:5601"
+#    depends_on:
+#      - elasticsearch
 
   nginx:
     build: ./nginx
