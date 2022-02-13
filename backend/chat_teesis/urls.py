@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import UserViewSet, TPViewSet, MAViewSet, MQViewSet, SRViewSet, SDViewSet, SIViewSet, SAViewSet, SA2ViewSet, SearchQtoAViewSet
+from .views import UserViewSet, TPViewSet, MAViewSet, MQViewSet, SRViewSet, SDViewSet, SIViewSet, SAViewSet, SA2ViewSet, SearchQtoAViewSet, MAIViewSet, UAViewSet, UQViewSet
 
 app_name = 'chat_teesis'
 
@@ -13,10 +13,13 @@ router.register('answers', MAViewSet)
 router.register('questions', MQViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('mentee-questions/search/', SRViewSet.as_view(), name="search"),
-    path('mentee-questions/search/<slug>/', SDViewSet.as_view(), name="search-data"),
-    path('mentee-questions/search/ID/<slug>/', SIViewSet.as_view(), name="search-data"),
+    path('questions/search/', SRViewSet.as_view(), name="search_m/s"),
+    path('questions/search/key/<search_word>/', SDViewSet.as_view(), name="search-m/s"),
+    path('questions/search/id/<mentee_question_Id>/', SIViewSet.as_view(), name="search-data"),
+    path('questions/search/id/<user_Id>/', UQViewSet.as_view(), name="user_Id"),
     path('answers/search/', SA2ViewSet.as_view(), name="search-answer"),
-    path('answers/search/<slug>/', SAViewSet.as_view(), name="search-answer"),
+    path('answers/search/<search_word>/', SAViewSet.as_view(), name="search-answer"),
+    path('answers/search/id/<mentee_question_Id>/', MAIViewSet.as_view(), name="question_ID"),
+    path('answers/search/id/<user_Id>/', UAViewSet.as_view(), name="user_ID"),
+
 ] + router.urls
