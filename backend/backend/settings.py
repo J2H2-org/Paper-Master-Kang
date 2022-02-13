@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'chat_teesis.apps.ChatTeesisConfig',
-    'django_elasticsearch_dsl',
+    # 'django_elasticsearch_dsl',
     # 'django_elasticsearch_dsl_drf',
     'corsheaders',
     'drf_yasg',

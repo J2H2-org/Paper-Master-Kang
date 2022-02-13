@@ -45,28 +45,6 @@ class SearchQtoAViewSet (APIView):
             return Response(body)
         return Response({"message": "Hello world!"})
 
-
-class SRViewSet(APIView):
-
-    def get(self, request, **kwargs):
-        es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
-        search = kwargs['slug']
-
-        if not search:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'search word param is missing'})
-        if type(search) == int:
-            docs = es.search(index='teesis.chat_teesis_search_info_col',
-                             body={
-                                 "query": {
-                                     "match": {
-                                         "user_Id": search
-                                     }
-                                 }
-                             })
-            data_list = []
-            for data in docs['hits']['hits']:
-                data_list.append(data.get('_source'))
-
 class SRViewSet(APIView):
 
     def get(self,request):
@@ -99,8 +77,9 @@ class SDViewSet(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'search word param is missing'})
         docs = es.search(index='search_1',
                             body={
-                                "from": 0,
-                                "size": 2,
+                                # "from": 0,
+                                # "size": 1,
+                                "min_score": 3.0,
                                  "query": {
                                      "multi_match": {
                                          "query": search,
@@ -167,8 +146,9 @@ class SAViewSet(APIView):
 
         docs = es.search(index='search_2',
                          body={
-                             "from": 0,
-                             "size": 1,
+                             # "from": 0,
+                             # "size": 1,#document 1개만 보이게 하는거
+                             "min_score": 3.0,
                              "query": {
                                  "multi_match": {
                                      "query": search,
@@ -205,6 +185,3 @@ class SA2ViewSet(APIView):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
         es.index(index='search_2', body=request.body)
         return HttpResponse(request.body)
-
-
-        return Response({'data': data_list}, status=200)
