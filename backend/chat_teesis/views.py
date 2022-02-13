@@ -81,8 +81,8 @@ class SDViewSet(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'search word param is missing'})
         docs = es.search(index='search_1',
                             body={
-                                # "from": 2,
-                                # "size": 2,
+                                "from": 0,
+                                "size": 2,
                                  "query": {
                                      "multi_match": {
                                          "query": search,
@@ -149,8 +149,8 @@ class SAViewSet(APIView):
 
         docs = es.search(index='search_2',
                          body={
-                             # "from": 3,
-                             # "size": 3,
+                             "from": 0,
+                             "size": 1,
                              "query": {
                                  "multi_match": {
                                      "query": search,
