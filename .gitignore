@@ -3,15 +3,11 @@ venv
 .env.prod
 /.vscode/
 /mongodb_data_dev/
-/deploy/keys/
-/deploy/.terraform.lock.hcl
-/deploy/.terraform.tfstate.lock.info
-/deploy/terraform.tfstate
-/deploy/terraform.tfstate.backup
 /backend/media/
 /backend/static/
 /backend/secrets.json
-/k3s_config.yaml
 /grafana/config.monitoring
 /prometheus/data/
 /grafana/data/
+/settings/prod/.env.elastic
+/kibana/config/kibana.yml

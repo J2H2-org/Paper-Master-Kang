@@ -1,32 +1,21 @@
 version: "3"
 
 volumes:
-  mongodb_volume: null
-  mongodb_config_volume: null
+  postgres_data: null
+  elasticsearch_volume: null
   static_volume: null
   media_volume: null
-  redis_volume: null
 
 services:
-  mongo:
-    container_name: mongo
-    image: mongo:5-focal
+  db:
+    image: postgres:12.0-alpine
+    container_name: postgres
     volumes:
-      - mongodb_volume:/data/db
-      - mongodb_config_volume:/data/configdb
-    restart: always
-    ports:
-      - "27017:27017"
+      - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./settings/prod/.env.db
-
-  redis:
-    container_name: redis
-    image: redis
     ports:
-      - "6379:6379"
-    volumes:
-      - redis_volume:/data
+      - "5432:5432"
 
   backend:
     container_name: backend
@@ -47,9 +36,113 @@ services:
       - 8000
     env_file:
       - ./settings/prod/.env.prod
+
+  node-exporter:
+    image: prom/node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - --collector.filesystem.ignored-mount-points
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+    ports:
+      - "9100:9100"
+    restart: always
+    deploy:
+      mode: global
+
+  alertmanager:
+    container_name: alertmanagere
+    image: prom/alertmanager
+    ports:
+      - "19093:9093"
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    restart: always
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+
+  cadvisor:
+    image: google/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - "8081:8080"
+    restart: always
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+
+  prometheus:
+    image: prom/prometheus:latest
+    restart: always
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    links:
+      - cadvisor:cadvisor
+      - alertmanager:alertmanager
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - ./prometheus/data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: always
+    user: "472"
+    container_name: grafana
     depends_on:
-      - mongo
-      - redis
+      - prometheus
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - grafana/config.monitoring
+
+  elasticsearch:
+    container_name: elasticsearch
+    build:
+      context: elasticsearch/
+      args:
+        ELK_VERSION: 7.16.3
+    #    image: elasticsearch:7.16.3
+    restart: always
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,z
+      - elasticsearch_volume:/usr/share/elasticsearch/data:z
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      discovery.type: single-node
+    env_file:
+      - ./settings/prod/.env.elastic
+
+  kibana:
+    container_name: kibana
+    image: kibana:7.16.3
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,z
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
 
   nginx:
     build: ./nginx
