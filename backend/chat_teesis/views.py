@@ -81,6 +81,8 @@ class SDViewSet(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'search word param is missing'})
         docs = es.search(index='search_1',
                             body={
+                                # "from": 2,
+                                # "size": 2,
                                  "query": {
                                      "multi_match": {
                                          "query": search,
@@ -104,22 +106,19 @@ class SDViewSet(APIView):
         }
         }
         docs = es.delete_by_query(index='search_1', doc_type="_doc", body=doc)
+        docs_1 = es.search(index='search_1',
+                         body={
+                             "query": {
+                                 "match_all": {
+                                 }
+                             }
+                         }
+                        )
         data_list = []
-        for data in docs:
+        for data in docs_1['hits']['hits']:
             data_list.append(data)
-        # .get('_source')
+                # .get('_source')
         return Response(data_list)
-
-    # def put(self,request,**kwargs):
-    #     es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
-    #     update = kwargs['slug']
-    #     doc = {"query": {
-    #         "match": {
-    #             "mentee_question_Id": update
-    #         }
-    #     }
-    #     }
-    #     docs = es.update_by_query(index='search_1', doc_type="_doc", body=)
 
 
 class SIViewSet(APIView):
@@ -141,6 +140,53 @@ class SIViewSet(APIView):
             data_list.append(data.get('_source'))
 
         return Response({'data': data_list})
+
+class SAViewSet(APIView):
+    def get(self,request,**kwargs):
+
+        es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
+        search = kwargs['slug']
+
+        docs = es.search(index='search_2',
+                         body={
+                             # "from": 3,
+                             # "size": 3,
+                             "query": {
+                                 "multi_match": {
+                                     "query": search,
+                                     "fields": ["title", "contents"]
+                             }
+                         }
+                         })
+        data_list = []
+        for data in docs['hits']['hits']:
+            data_list.append(data.get('_source'))
+
+        return Response({'data': data_list})
+
+
+
+class SA2ViewSet(APIView):
+
+    def get(self,request):
+        es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
+        docs = es.search(index='search_2',
+                         body={
+                             "query": {
+                                 "match_all": {
+                                 }
+                             }
+                         })
+        data_list = []
+        for data in docs['hits']['hits']:
+            data_list.append(data.get('_source'))
+
+        return Response({'data': data_list}, status=200)
+
+    def post(self, request):
+        es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
+        es.index(index='search_2', body=request.body)
+        return HttpResponse(request.body)
 
 @api_view(['GET', 'POST'])
 def search_UserViewSet(request, user_Id):
