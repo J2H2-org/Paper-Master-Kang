@@ -191,7 +191,7 @@ class MAIViewSet(APIView):  # 질문 아이디로 답변검색
         mentee_question_Id = kwargs['mentee_question_Id']
 
         if mentee_question_Id:
-            queryset = queryset.filter(mentee_question_Id__gte=mentee_question_Id)
+            queryset = queryset.filter(mentee_question_Id__exact=mentee_question_Id)
 
         data_list = serializers.serialize('json', queryset)
         return HttpResponse(data_list, content_type="text/json-comment-filtered")
@@ -204,7 +204,7 @@ class UAViewSet(APIView):  # 유저 아이디로 답변검색
         user_Id = kwargs['user_Id']
 
         if user_Id:
-            queryset = queryset.filter(user_Id__gte=user_Id)
+            queryset = queryset.filter(user_Id__exact=user_Id)
 
         data_list = serializers.serialize('json', queryset)
         return HttpResponse(data_list, content_type="text/json-comment-filtered")
@@ -217,7 +217,7 @@ class UQViewSet(APIView):  # 유저 아이디로 질문검색
         user_Id = kwargs['user_Id']
 
         if user_Id:
-            queryset = queryset.filter(user_Id__gte=user_Id)
+            queryset = queryset.filter(user_Id__exact=user_Id)
 
         data_list = serializers.serialize('json', queryset)
         return HttpResponse(data_list, content_type="text/json-comment-filtered")
@@ -230,7 +230,7 @@ class UPViewSet(APIView):  # 유저 아이디로 논문계획 검색
         user_Id = kwargs['user_Id']
 
         if user_Id:
-            queryset = queryset.filter(user_Id__gte=user_Id)
+            queryset = queryset.filter(user_Id__exact=user_Id)
 
         data_list = serializers.serialize('json', queryset)
         return HttpResponse(data_list, content_type="text/json-comment-filtered")
