@@ -145,6 +145,7 @@ class SIViewSet(APIView):  # 엘라스틱서치 학과/주제 Id로 검색 및 �
             }
         }
         }
+
         docs = es.delete_by_query(index='search_1', doc_type="_doc", body=doc)
         return Response(True)
 
