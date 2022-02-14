@@ -20,15 +20,17 @@ es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2
 #                                 }
 #                             }
 #                         }
-#                     }
-#                 },
+#                     }},
 #                 "mappings": {
 #                     "properties": {
-#                         "title": {
+#                         "mentee_question_Id": {
+#                             "type": "long"
+#                         },
+#                         "major": {
 #                             "type": "text",
 #                             "analyzer": "nori"
 #                         },
-#                         "contents": {
+#                         "subject": {
 #                             "type": "text",
 #                             "analyzer": "nori"
 #                         }

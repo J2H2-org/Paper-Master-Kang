@@ -61,7 +61,7 @@ class SRViewSet(APIView):  # 엘라스틱서치 학과/주제 전체검색 및 �
         for data in docs['hits']['hits']:
             data_list.append(data.get('_source'))
 
-        return Response({'data': data_list}, status=200)
+        return Response(data_list, status=200)
 
     def post(self, request):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
@@ -103,19 +103,6 @@ class SDViewSet(APIView):  # 엘라스틱서치 학과/주제 검색어로 검�
         # return HttpResponse(200)
         return HttpResponse(question_list, content_type="text/json-comment-filtered")
 
-    # def get_mentee_id(metee_question_Id):
-    #     queryset = mentee_question_col.objects.all()
-    #     response = request.get(
-    #         params={
-    #             'mentee_question_Id': metee_question_Id
-    #         },
-    #         verify=False
-    #     )
-    #     if response.status_code == 200:
-    #         queryset = queryset.filter(mentee_question_Id__gte=response)
-    #         data_list = serializers.serialize('json', queryset)
-    #     return HttpResponse(data_list, content_type="text/json-comment-filtered")
-
 
 class SIViewSet(APIView):  # 엘라스틱서치 학과/주제 Id로 검색 및 삭제
     def get(self, request, **kwargs):
@@ -134,7 +121,7 @@ class SIViewSet(APIView):  # 엘라스틱서치 학과/주제 Id로 검색 및 �
         for data in docs['hits']['hits']:
             data_list.append(data.get('_source'))
 
-        return Response({'data': data_list}, status=200)
+        return Response(data_list, status=200)
 
     def delete(self, request, **kwargs):  # 멘티아이디로 document 삭제
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
@@ -171,7 +158,7 @@ class SAViewSet(APIView):  # 엘라스틱서치 답변 검색어 검색
         for data in docs['hits']['hits']:
             data_list.append(data.get('_source'))
 
-        return Response({'data': data_list}, status=200)
+        return Response(data_list, status=200)
 
 
 class SA2ViewSet(APIView):  # 엘라스틱서치 답변 전체검색 및 등록
@@ -189,7 +176,7 @@ class SA2ViewSet(APIView):  # 엘라스틱서치 답변 전체검색 및 등록
         for data in docs['hits']['hits']:
             data_list.append(data.get('_source'))
 
-        return Response({'data': data_list}, status=200)
+        return Response(data_list, status=200)
 
     def post(self, request):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
@@ -227,6 +214,19 @@ class UQViewSet(APIView):  # 유저 아이디로 질문검색
 
     def get(self, request, **kwargs):
         queryset = mentee_question_col.objects.all()
+        user_Id = kwargs['user_Id']
+
+        if user_Id:
+            queryset = queryset.filter(user_Id__gte=user_Id)
+
+        data_list = serializers.serialize('json', queryset)
+        return HttpResponse(data_list, content_type="text/json-comment-filtered")
+
+
+class UPViewSet(APIView):  # 유저 아이디로 논문계획 검색
+
+    def get(self, request, **kwargs):
+        queryset = thesis_plan_col.objects.all()
         user_Id = kwargs['user_Id']
 
         if user_Id:
