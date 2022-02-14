@@ -5,7 +5,7 @@ volumes:
   postgres_data_dev: {}
   elasticsearch:
   grafana_volume:
-    external: true
+#    external: true
 
 services:
 #  mongo:

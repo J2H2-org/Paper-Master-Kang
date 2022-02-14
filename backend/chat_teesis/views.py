@@ -61,7 +61,7 @@ class SRViewSet(APIView):  # 엘라스틱서치 학과/주제 전체검색 및 �
         for data in docs['hits']['hits']:
             data_list.append(data.get('_source'))
 
-        return Response({'data': data_list})
+        return Response({'data': data_list}, status=200)
 
     def post(self, request):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
@@ -80,6 +80,7 @@ class SDViewSet(APIView):  # 엘라스틱서치 학과/주제 검색어로 검�
                          body={
                              "from": 0,
                              "size": 3,
+                             "_source": ["mentee_question_Id"],  # 검색결과에서 특정필드값만 보이게 하기
                              "query": {
                                  "multi_match": {
                                      "query": search,
@@ -91,7 +92,29 @@ class SDViewSet(APIView):  # 엘라스틱서치 학과/주제 검색어로 검�
         for data in docs['hits']['hits']:
             data_list.append(data.get('_source'))
 
-        return Response({'data': data_list})
+        queryset = mentee_question_col.objects.all()
+        question_list = []
+        for i in range(len(data_list)):
+            data = (data_list[i]['mentee_question_Id'])
+
+            mentee_query = queryset.filter(mentee_question_Id__gte=data)
+
+            question_list.append(serializers.serialize('json', mentee_query))
+        # return HttpResponse(200)
+        return HttpResponse(question_list, content_type="text/json-comment-filtered")
+
+    # def get_mentee_id(metee_question_Id):
+    #     queryset = mentee_question_col.objects.all()
+    #     response = request.get(
+    #         params={
+    #             'mentee_question_Id': metee_question_Id
+    #         },
+    #         verify=False
+    #     )
+    #     if response.status_code == 200:
+    #         queryset = queryset.filter(mentee_question_Id__gte=response)
+    #         data_list = serializers.serialize('json', queryset)
+    #     return HttpResponse(data_list, content_type="text/json-comment-filtered")
 
 
 class SIViewSet(APIView):  # 엘라스틱서치 학과/주제 Id로 검색 및 삭제
@@ -147,7 +170,7 @@ class SAViewSet(APIView):  # 엘라스틱서치 답변 검색어 검색
         for data in docs['hits']['hits']:
             data_list.append(data.get('_source'))
 
-        return Response({'data': data_list})
+        return Response({'data': data_list}, status=200)
 
 
 class SA2ViewSet(APIView):  # 엘라스틱서치 답변 전체검색 및 등록
@@ -165,7 +188,7 @@ class SA2ViewSet(APIView):  # 엘라스틱서치 답변 전체검색 및 등록
         for data in docs['hits']['hits']:
             data_list.append(data.get('_source'))
 
-        return Response({'data': data_list})
+        return Response({'data': data_list}, status=200)
 
     def post(self, request):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
@@ -210,5 +233,3 @@ class UQViewSet(APIView):  # 유저 아이디로 질문검색
 
         data_list = serializers.serialize('json', queryset)
         return HttpResponse(data_list, content_type="text/json-comment-filtered")
-
-# class GMIViewSet(APIView): #검색된 멘티 아이디 받아서 db로 보내주기
