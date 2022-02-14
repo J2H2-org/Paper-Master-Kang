@@ -234,3 +234,4 @@ class UPViewSet(APIView):  # 유저 아이디로 논문계획 검색
 
         data_list = serializers.serialize('json', queryset)
         return HttpResponse(data_list, content_type="text/json-comment-filtered")
+
