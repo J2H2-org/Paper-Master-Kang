@@ -70,9 +70,10 @@ class SRViewSet(APIView):  # 엘라스틱서치 플랜 전체검색 및 등록
 
 
 class SDViewSet(APIView):  # 엘라스틱서치 플랜 검색어로 검색한 후 질문아이디만 받아서 질문검색
-    def get(self, request, **kwargs):
+    def get(self, request):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
-        search = kwargs['search_word']
+        search = json.loads(request.body)
+        search = search['word']
 
         if not search:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'search word param is missing'})
@@ -138,9 +139,10 @@ class SIViewSet(APIView):  # 엘라스틱서치 플랜 Id로 검색 및 삭제
 
 
 class SAViewSet(APIView):  # 엘라스틱서치 답변 검색어 검색
-    def get(self, request, **kwargs):
+    def get(self, request):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
-        search = kwargs['search_word']
+        search = json.loads(request.body)
+        search = search['word']
 
         docs = es.search(index='search_2',
                          body={

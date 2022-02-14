@@ -14,11 +14,11 @@ router.register('questions', MQViewSet)
 
 urlpatterns = [
     path('questions/search/', SRViewSet.as_view(), name="search_m/s"),
-    path('questions/search/key/<search_word>/', SDViewSet.as_view(), name="search-m/s"),
+    path('questions/search/key/', SDViewSet.as_view(), name="search-m/s"),
     path('questions/search/question-id/<mentee_question_Id>/', SIViewSet.as_view(), name="search-data"),
     path('questions/search/user-id/<user_Id>/', UQViewSet.as_view(), name="user_Id"),
     path('answers/search/', SA2ViewSet.as_view(), name="search-answer"),
-    path('answers/search/<search_word>/', SAViewSet.as_view(), name="search-answer"),
+    path('answers/search/key/', SAViewSet.as_view(), name="search-answer"),
     path('answers/search/question-id/<mentee_question_Id>/', MAIViewSet.as_view(), name="question_ID"),
     path('answers/search/user-id/<user_Id>/', UAViewSet.as_view(), name="user_ID"),
     path('plans/search/user-id/<user_Id>/', UPViewSet.as_view(), name="search-plan"),
