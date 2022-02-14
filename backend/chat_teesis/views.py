@@ -46,7 +46,7 @@ class SearchQtoAViewSet(APIView):
         return Response({"message": "Hello world!"})
 
 
-class SRViewSet(APIView):  # 엘라스틱서치 학과/주제 전체검색 및 등록
+class SRViewSet(APIView):  # 엘라스틱서치 플랜 전체검색 및 등록
 
     def get(self, request):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
@@ -69,7 +69,7 @@ class SRViewSet(APIView):  # 엘라스틱서치 학과/주제 전체검색 및 �
         return HttpResponse(request.body)
 
 
-class SDViewSet(APIView):  # 엘라스틱서치 학과/주제 검색어로 검색
+class SDViewSet(APIView):  # 엘라스틱서치 플랜 검색어로 검색한 후 질문아이디만 받아서 질문검색
     def get(self, request, **kwargs):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
         search = kwargs['search_word']
@@ -97,14 +97,14 @@ class SDViewSet(APIView):  # 엘라스틱서치 학과/주제 검색어로 검�
         for i in range(len(data_list)):
             data = (data_list[i]['mentee_question_Id'])
 
-            mentee_query = queryset.filter(mentee_question_Id__gte=data)
+            mentee_query = queryset.filter(mentee_question_Id__exact=data)
 
             question_list.append(serializers.serialize('json', mentee_query))
         # return HttpResponse(200)
         return HttpResponse(question_list, content_type="text/json-comment-filtered")
 
 
-class SIViewSet(APIView):  # 엘라스틱서치 학과/주제 Id로 검색 및 삭제
+class SIViewSet(APIView):  # 엘라스틱서치 플랜 Id로 검색 및 삭제
     def get(self, request, **kwargs):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
         search = kwargs['mentee_question_Id']
