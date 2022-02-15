@@ -1,5 +1,4 @@
 # Create your views here.
-import chain
 import json
 
 from django.core import serializers
@@ -97,10 +96,9 @@ class SDViewSet(APIView):  # 엘라스틱서치 플랜 검색어로 검색한 �
 
             mentee_query = queryset.filter(mentee_question_Id__exact=data)
 
-            question_list.append(serializers.serialize('json', mentee_query))
-        # return HttpResponse(200)
-
-        return HttpResponse(list(chain.from_iterable(question_list)), content_type="text/json-comment-filtered")
+            for j in json.loads(serializers.serialize('json', mentee_query)):
+                question_list.append(j)
+        return HttpResponse(json.dumps(question_list), content_type="text/json-comment-filtered")
 
 
 class SIViewSet(APIView):  # 엘라스틱서치 플랜 Id로 검색 및 삭제

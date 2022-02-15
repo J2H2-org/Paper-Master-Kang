@@ -13,4 +13,3 @@ drf-yasg==1.20.0
 whitenoise
 django-prometheus
 elasticsearch==7.16.3
-chain==1.0
