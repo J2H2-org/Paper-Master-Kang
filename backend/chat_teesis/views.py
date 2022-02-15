@@ -1,17 +1,14 @@
 # Create your views here.
+import chain
 import json
 
-from django.http import HttpResponse
-from requests import request
-from rest_framework import viewsets
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from elasticsearch import Elasticsearch
-from rest_framework.views import APIView
-from django.http import HttpResponse, JsonResponse
 from django.core import serializers
+from django.http import HttpResponse
+from elasticsearch import Elasticsearch
+from rest_framework import status
+from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import user_col, thesis_plan_col, mentor_answer_col, mentee_question_col
 from .serializers import UserSerializer, TPSerializer, MASerializer, MQSerializer
@@ -102,7 +99,8 @@ class SDViewSet(APIView):  # 엘라스틱서치 플랜 검색어로 검색한 �
 
             question_list.append(serializers.serialize('json', mentee_query))
         # return HttpResponse(200)
-        return HttpResponse(question_list, content_type="text/json-comment-filtered")
+
+        return HttpResponse(list(chain.from_iterable(question_list)), content_type="text/json-comment-filtered")
 
 
 class SIViewSet(APIView):  # 엘라스틱서치 플랜 Id로 검색 및 삭제

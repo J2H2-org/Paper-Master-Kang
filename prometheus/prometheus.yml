@@ -13,33 +13,29 @@ alerting:
 
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-
   - job_name: 'prometheus'
-
-    # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 10s
 
     static_configs:
       - targets: [ 'localhost:9090' ]
 
-
   - job_name: 'cadvisor'
+    scrape_interval: 10s
     static_configs:
-      - targets: [ 'cadvisor:8080' ]
+      - targets:
+        - 'cadvisor:8081'
 
   - job_name: 'node-exporter'
-
-    # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
-
     static_configs:
       - targets: [ 'node-exporter:9100' ]
 
 
   - job_name: backend
+    scrape_interval: 10s
     static_configs:
-      - targets:
-          - 'backend:8000'
+      - targets: [ 'backend:8000' ]
+
   #  - job_name: nginx
   #    static_configs:
   #      - targets:
