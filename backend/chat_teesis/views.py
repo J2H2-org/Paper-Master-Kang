@@ -233,3 +233,15 @@ class UPViewSet(APIView):  # 유저 아이디로 논문계획 검색
         data_list = serializers.serialize('json', queryset)
         return HttpResponse(data_list, content_type="text/json-comment-filtered")
 
+
+class PIQViewSet(APIView):  # 플랜 아이디로 질문 검색
+
+    def get(self, request, **kwargs):
+        queryset = mentee_question_col.objects.all()
+        thesis_plan_Id = kwargs['thesis_plan_Id']
+
+        if thesis_plan_Id:
+            queryset = queryset.filter(thesis_plan_Id__exact=thesis_plan_Id)
+
+        data_list = serializers.serialize('json', queryset)
+        return HttpResponse(data_list, content_type="text/json-comment-filtered")
