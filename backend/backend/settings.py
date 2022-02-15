@@ -125,7 +125,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ALLOW_METHODS = ['DELETE','GET','OPTIONS','PATCH','POST','PUT']
 
 CORS_ORIGIN_WHITELIST = ['http://localhost:8000',
-                         'http://localhost:18081',
+                         'http://localhost:8081',
                          'http://localhost:9090',
                          'http://localhost:5432',
                          'http://localhost:80',

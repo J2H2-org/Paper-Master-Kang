@@ -81,12 +81,13 @@ services:
       - --collector.filesystem.ignored-mount-points
       - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
     ports:
-      - "19100:9100"
+      - "9100:9100"
     restart: always
     deploy:
       mode: global
 
   alertmanager:
+    container_name: alertmanager
     image: prom/alertmanager
     ports:
       - "19093:9093"
@@ -98,15 +99,18 @@ services:
       - '--storage.path=/alertmanager'
 
   cadvisor:
+    container_name: cadvisor
     image: google/cadvisor
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
+      - /etc/machine-id:/etc/machine-id:ro #디렉토리 오류나서 추가
     ports:
-      - "18081:8080"
+      - "8081:8080"
     restart: always
+    privileged: true #디렉토리 오류나서 추가
     deploy:
       mode: global
       restart_policy:
@@ -117,7 +121,7 @@ services:
     restart: always
     container_name: prometheus
     ports:
-      - "19090:9090"
+      - "9090:9090"
     links:
       - cadvisor:cadvisor
       - alertmanager:alertmanager
@@ -138,7 +142,7 @@ services:
     depends_on:
       - prometheus
     ports:
-      - "13001:3000"
+      - "8082:3000"
     volumes:
       - grafana_volume:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/

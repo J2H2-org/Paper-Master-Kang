@@ -8,7 +8,7 @@ volumes:
   grafana_volume: null
 
 networks:
-  grafana-tier:
+  app-tier:
     driver: bridge
 
 services:
@@ -21,6 +21,8 @@ services:
       - ./settings/prod/.env.db
     ports:
       - "5432:5432"
+    networks:
+      - app-tier
 
   backend:
     container_name: backend
@@ -41,8 +43,8 @@ services:
       - 8000
     env_file:
       - ./settings/prod/.env.prod
-    deploy:
-      mode: global
+    networks:
+      - app-tier
 
   node-exporter:
     container_name: node-exporter
@@ -61,6 +63,8 @@ services:
     restart: always
     deploy:
       mode: global
+    networks:
+      - app-tier
 
   alertmanager:
     container_name: alertmanager
@@ -73,6 +77,8 @@ services:
     command:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
+    networks:
+      - app-tier
 
 #  cadvisor:
 #    image: gcr.io/cadvisor/cadvisor:latest
@@ -109,13 +115,15 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
       - /etc/machine-id:/etc/machine-id:ro #디렉토리 오류나서 추가
     ports:
-      - "8081:8080"
+      - "8080:8080"
     restart: always
     privileged: true #디렉토리 오류나서 추가
     deploy:
       mode: global
       restart_policy:
         condition: on-failure
+    networks:
+      - app-tier
 
   prometheus:
     image: prom/prometheus:latest
@@ -137,6 +145,8 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
+    networks:
+      - app-tier
 
   grafana:
     build:
@@ -148,6 +158,8 @@ services:
       - prometheus
     volumes:
       - grafana_volume:/var/lib/grafana
+    networks:
+      - app-tier
 
   elasticsearch:
     container_name: elasticsearch
@@ -168,6 +180,8 @@ services:
       discovery.type: single-node
     env_file:
       - ./settings/prod/.env.elastic
+    networks:
+      - app-tier
 
 #  kibana:
 #    container_name: kibana
@@ -189,3 +203,5 @@ services:
       - media_volume:/backend/media
     depends_on:
       - backend
+    networks:
+      - app-tier
