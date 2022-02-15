@@ -4,12 +4,7 @@ volumes:
   postgres_data: null
   elasticsearch_volume: null
   static_volume: null
-  media_volume: null
   grafana_volume: null
-
-networks:
-  app-tier:
-    driver: bridge
 
 services:
   db:
@@ -21,8 +16,6 @@ services:
       - ./settings/prod/.env.db
     ports:
       - "5432:5432"
-    networks:
-      - app-tier
 
   backend:
     container_name: backend
@@ -37,14 +30,11 @@ services:
       - "8000:8000"
     volumes:
       - static_volume:/backend/static
-      - media_volume:/backend/media
       - ./backend/:/backend/
     expose:
       - 8000
     env_file:
       - ./settings/prod/.env.prod
-    networks:
-      - app-tier
 
   node-exporter:
     container_name: node-exporter
@@ -63,47 +53,18 @@ services:
     restart: always
     deploy:
       mode: global
-    networks:
-      - app-tier
 
   alertmanager:
     container_name: alertmanager
     image: prom/alertmanager
     ports:
-      - "19093:9093"
+      - "9093:9093"
     volumes:
       - ./alertmanager/:/etc/alertmanager/
     restart: always
     command:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
-    networks:
-      - app-tier
-
-#  cadvisor:
-#    image: gcr.io/cadvisor/cadvisor:latest
-#    container_name: cadvisor
-#    ports:
-#    - "8080:8080"
-#    volumes:
-#    - /:/rootfs:ro
-#    - /var/run:/var/run:rw
-#    - /sys:/sys:ro
-#    - /var/lib/docker/:/var/lib/docker:ro
-#
-#  prometheus:
-#    image: prom/prometheus:latest
-#    container_name: prometheus
-#    ports:
-#    - "9090:9090"
-#    command:
-#    - --config.file=/etc/prometheus/prometheus.yml
-#    volumes:
-#    - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
-#    user: root
-#    depends_on:
-#    - cadvisor
-
 
   cadvisor:
     container_name: cadvisor
@@ -122,8 +83,6 @@ services:
       mode: global
       restart_policy:
         condition: on-failure
-    networks:
-      - app-tier
 
   prometheus:
     image: prom/prometheus:latest
@@ -145,8 +104,6 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
-    networks:
-      - app-tier
 
   grafana:
     build:
@@ -158,8 +115,6 @@ services:
       - prometheus
     volumes:
       - grafana_volume:/var/lib/grafana
-    networks:
-      - app-tier
 
   elasticsearch:
     container_name: elasticsearch
@@ -180,8 +135,6 @@ services:
       discovery.type: single-node
     env_file:
       - ./settings/prod/.env.elastic
-    networks:
-      - app-tier
 
 #  kibana:
 #    container_name: kibana
@@ -200,8 +153,5 @@ services:
       - "80:8080"
     volumes:
       - static_volume:/backend/static
-      - media_volume:/backend/media
     depends_on:
       - backend
-    networks:
-      - app-tier
