@@ -41,6 +41,8 @@ services:
       - 8000
     env_file:
       - ./settings/prod/.env.prod
+    deploy:
+      mode: global
 
   node-exporter:
     container_name: node-exporter
@@ -105,9 +107,11 @@ services:
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
+      - /etc/machine-id:/etc/machine-id:ro #디렉토리 오류나서 추가
     ports:
       - "8081:8080"
     restart: always
+    privileged: true #디렉토리 오류나서 추가
     deploy:
       mode: global
       restart_policy:

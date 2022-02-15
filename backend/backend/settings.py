@@ -46,8 +46,6 @@ INSTALLED_APPS = [
     'chat_teesis.apps.ChatTeesisConfig',
     'corsheaders',
     'drf_yasg',
-    'djongo',
-    'chat_redis',
     'django_prometheus',
 ]
 
@@ -89,27 +87,6 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    # 'mongo': {
-    #     'ENGINE': 'djongo',
-    #     'ENFORCE_SCHEMA': True,
-    #     'LOGGING': {
-    #         'version': 1,
-    #         'loggers': {
-    #             'djongo': {
-    #                 'level': 'DEBUG',
-    #                 'propogate': False,
-    #             }
-    #         },
-    #     },
-    #     'NAME': os.environ.get('MONGO_NAME', 'teesis'),
-    #     'CLIENT': {
-    #         'host': os.environ.get('MONGO_HOST', 'mongo'),
-    #         'username': os.environ.get('MONGO_USER', 'root'),
-    #         'password': os.environ.get('MONGO_PASSWORD', 'temppw'),
-    #         'authSource': 'admin',
-    #         'authMechanism': 'SCRAM-SHA-1'
-    #     }
-    # },
     'default': {
         'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.sqlite3'),
         'NAME': os.environ.get('SQL_DATABASE', os.path.join(BASE_DIR, 'db.sqlite3')),
@@ -122,16 +99,6 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
-
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://redis:6379/1",  # 1번 DB
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
@@ -159,7 +126,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = ['http://localhost:8000',
                          'http://localhost:18081',
-                         'http://localhost:27017',
+                         'http://localhost:9090',
+                         'http://localhost:5432',
                          'http://localhost:80',
                          'http://localhost']
 
@@ -184,8 +152,3 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-
-# Media files (User uploaded files)
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
