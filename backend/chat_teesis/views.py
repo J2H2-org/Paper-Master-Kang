@@ -245,5 +245,3 @@ class PIQViewSet(APIView):  # 플랜 아이디로 질문 검색
 
         data_list = serializers.serialize('json', queryset)
         return HttpResponse(data_list, content_type="text/json-comment-filtered")
-
-
