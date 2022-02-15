@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team-C</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/index.css">
+  <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
+</head>
+<body>
+  <!-- header main text -->
+  <div class="main_underline">
+    <h1 class="main_text">JOURNAL OF AI APPLICATIONS</h1>
+  </div>
+
+  <!-- header gnb -->
+  <ul class="gnb">
+    <li class="gnb_1"><a href="#">MAIN</a></li>
+    <li class="gnb_2"><a href="#">ABOUT US</a></li>
+  </ul>
+
+  <!-- main section -->
+<section class="main_section">
+  <!-- main text -->
+  <h2 class="main_desc">AI APPLICATION<br> RESERARCH<br> FOR OPEN SCIENCE</h2>
+
+  <!-- main images -->
+  <div class="main_images">
+    <p class="main_img_1">thesis image 1</p>
+    <p class="main_img_2">thesis image 2</p>
+    <p class="main_img_3">thesis image 3</p>
+  </div>
+</section>
+
+<!-- sub section -->
+<section class="sub_section">
+  <h2 class="sub_title">J2H2 / Chat_Teesis</h2>
+  <p class="sub_text">멘토가 없는 멘티들을 위한 논문작성 도움 챗봇<br>
+    Teesis = Mentee + Thesis</p>
+  <ul class="listup">
+    <li class="github"><a href="https://github.com/orgs/J2H2-org/">Github</a></li>
+    <li class="notion"><a href="https://www.notion.so/J2H2-b7224ff91e544536bde9876ec2be9fca">Notion</a></li>
+  </ul>
+  <p class="sub_image">thesis image</p>
+</section>
+
+  <!-- chat bot icon -->
+  <p class="chat_bot" onclick="show_iframe()">chat bot icon</p>
+  <iframe src="https://stage.coginsight.net/service/#/0628df8b-df23-4573-b189-72c0f8cd045d" name="ifrmae" id="iframe" class="iframe" frameborder="0" scrolling="no"></iframe>
+  <div class="close_btn" id="close_btn" onclick="close_iframe()"></div>
+</body>
+</html>

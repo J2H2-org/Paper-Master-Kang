@@ -1,0 +1,259 @@
+/* common */
+.main_text{
+  margin-top: 50px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.main_underline{
+  width: 768px;
+  border-bottom: 1px solid;
+  text-align: center;
+  margin: auto;
+  margin-bottom: 15px;
+  padding-bottom: 30px;
+}
+
+.gnb{
+  margin: auto;
+  width: 140px;
+  height: 20px;
+  margin-bottom: 100px;
+}
+
+.gnb li{
+  float: left;
+}
+
+.gnb_1{
+  margin-right: 30px;
+}
+
+/* main section */
+.main_desc{
+  font-size: 58px;
+  font-weight: lighter;
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 50px;
+}
+
+.main_images{
+  height: 400px;
+}
+
+.main_img_1{
+  background: url("../images/chat_1.jpg") no-repeat center;
+  background-size: cover;
+  width: 33.33%;
+  height: 100%;
+  text-indent: -9999px;
+  float: left;
+}
+
+.main_img_2{
+  background: url("../images/chat_2.png") no-repeat center;
+  background-size: cover;
+  width: 33.33%;
+  height: 100%;
+  float: left;
+  text-indent: -9999px;
+}
+
+.main_img_3{
+  background: url("../images/chat_3.png") no-repeat center;
+  background-size: cover;
+  width: 33.33%;
+  height: 100%;
+  float: left;
+  text-indent: -9999px;
+}
+
+.chat_bot{
+  background: url("../images/chatbot.png") no-repeat;
+  background-size: cover;
+  width: 70px;
+  height: 70px;
+  text-indent: -9999px;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  cursor: pointer;
+}
+
+.close_btn{
+  background: url('../images/close2.png');
+  background-size: contain;
+  width: 30px;
+  height: 30px;
+  text-indent: -9999px;
+  position: fixed;
+  bottom: 650px;
+  right: 50px;
+  cursor: pointer;
+  display: none;
+}
+
+iframe{
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  display: none;
+  border-radius: 15px;
+}
+
+.iframe{
+  width: 370px;
+  height: 630px;
+}
+
+/* sub section */
+.sub_title{
+  text-align: center;
+  font-size: 50px;
+  margin-bottom: 40px;
+}
+
+.sub_text{
+  text-align: center;
+  font-size: 30px;
+  line-height: 1.5;
+  margin-bottom: 80px;
+}
+
+.listup{
+  font-size: 24px;
+  width: 127px;
+  margin: auto;
+}
+
+.github{
+  display: inline-block;
+  background: url("../images/github.png");
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  text-indent: -9999px;
+  margin-right: 20px;
+}
+
+.notion{
+  display: inline-block;
+  background: url("../images/notion.png");
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  text-indent: -9999px;
+  margin-bottom: 20px;
+}
+
+.github a, .notion a{
+  display: block;
+  width: 50px;
+  height: 50px;
+}
+
+.sub_image{
+  background: url("../images/chat_2.png") no-repeat center;
+  width: 805px;
+  height: 447px;
+  text-indent: -9999px;
+  margin: auto;
+}
+
+.sub_section{
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  /* common */
+.main_underline{
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.gnb{
+  width: 100%;
+}
+
+.gnb li{
+  float: none;
+  text-align: center;
+  line-height: 2;
+  height: 30px;
+}
+
+.gnb_1{
+  margin-right: 0;
+  background: #dbdbdb;
+}
+
+.gnb_2{
+  background: #999;
+}
+
+/* main section */
+.main_desc{
+  font-size: 40px;
+  font-weight: border;
+}
+
+.main_img_1{
+  width: 100%;
+  height: 200px;
+  float: none;
+}
+
+.main_img_2{
+  width: 100%;
+  height: 200px;
+  float: none;
+}
+
+.main_img_3{
+  width: 100%;
+  height: 200px;
+  float: none;
+}
+
+.chat_bot{
+  width: 50px;
+  height: 50px;
+  bottom: 30px;
+  right: 30px;
+}
+
+.close_btn{
+  width: 40px;
+  height: 40px;
+  top: -5px;
+  right: 0;
+}
+
+.iframe{
+  width: 100%;
+  height: 100%;
+}
+
+iframe{
+  bottom: 0px;
+  right: 0px;
+}
+
+/* sub section */
+.sub_title{
+  font-size: 35px;
+  margin-bottom: 20px;
+}
+
+.sub_text{
+  font-size: 20px;
+  margin-bottom: 40px;
+}
+
+.sub_image {
+  width: 100%;
+  height: 400px;
+}
+}
