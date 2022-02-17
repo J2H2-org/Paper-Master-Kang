@@ -3,7 +3,8 @@ global:
   scrape_timeout: 10s
 
 rule_files:
-  - alert.yml
+  - "alert.yml"
+
 alerting:
   alertmanagers:
   - scheme: http
@@ -32,4 +33,3 @@ scrape_configs:
     scrape_interval: 113s
     static_configs:
       - targets: [ 'backend:8000' ]
-

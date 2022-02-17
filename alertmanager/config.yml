@@ -1,10 +1,11 @@
+global:
+  resolve_timeout: 1m
+  slack_api_url: 'https://hooks.slack.com/services/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'
+
 route:
-  receiver: 'slack'
+  receiver: 'slack-notifications'
 
 receivers:
-  - name: 'slack'
-      slack_configs:
-          - send_resolved: true
-            username: '<서버 알림>'
-            channel: '#team-c'
-            api_url: 'https://hooks.slack.com/services/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'
+- name: 'slack-notifications'
+  slack_configs:
+    - send_resolved: true

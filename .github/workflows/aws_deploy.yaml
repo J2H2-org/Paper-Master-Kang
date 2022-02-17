@@ -1,105 +1,30 @@
-# This workflow will build and push a new container image to Amazon ECR,
-# and then will deploy a new task definition to Amazon ECS, when there is a push to the main branch.
-#
-# To use this workflow, you will need to complete the following set-up steps:
-#
-# 1. Create an ECR repository to store your images.
-#    For example: `aws ecr create-repository --repository-name my-ecr-repo --region us-east-2`.
-#    Replace the value of the `ECR_REPOSITORY` environment variable in the workflow below with your repository's name.
-#    Replace the value of the `AWS_REGION` environment variable in the workflow below with your repository's region.
-#
-# 2. Create an ECS task definition, an ECS cluster, and an ECS service.
-#    For example, follow the Getting Started guide on the ECS console:
-#      https://us-east-2.console.aws.amazon.com/ecs/home?region=us-east-2#/firstRun
-#    Replace the value of the `ECS_SERVICE` environment variable in the workflow below with the name you set for the Amazon ECS service.
-#    Replace the value of the `ECS_CLUSTER` environment variable in the workflow below with the name you set for the cluster.
-#
-# 3. Store your ECS task definition as a JSON file in your repository.
-#    The format should follow the output of `aws ecs register-task-definition --generate-cli-skeleton`.
-#    Replace the value of the `ECS_TASK_DEFINITION` environment variable in the workflow below with the path to the JSON file.
-#    Replace the value of the `CONTAINER_NAME` environment variable in the workflow below with the name of the container
-#    in the `containerDefinitions` section of the task definition.
-#
-# 4. Store an IAM user access key in GitHub Actions secrets named `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
-#    See the documentation for each action used below for the recommended IAM policies for this IAM user,
-#    and best practices on handling the access key credentials.
+# This is a basic workflow to help you get started with Actions
 
-name: Deploy to Amazon ECS
+name: deploy
 
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches:
       - deploy
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  duplicate_guard:
-    # continue-on-error: true # Uncomment once integration is finished
-    runs-on: ubuntu-latest
-    # Map a step output to a job output
-    outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
-    steps:
-      - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
-        with:
-          # All of these options are optional, so you can remove them if you are happy with the defaults
-          concurrent_skipping: "never"
-          skip_after_successful_duplicate: "true"
-          paths_ignore: '["**/README.md", "**/docs/**"]'
-          do_not_skip: '["pull_request", "workflow_dispatch", "schedule"]'
-
-  deploy:
-    name: Deploy
-    needs: duplicate_guard
-    if: ${{ needs.duplicate_guard.outputs.should_skip != 'true' }}
+  SSH:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - uses: actions/checkout@v2
+      - name: Run scripts in server
+        uses: appleboy/ssh-action@master
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        run: |
-          docker login -u AWS -p $(aws ecr-public get-login-password --region us-east-1) public.ecr.aws/p2k6s0s6
-
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: <ecr-repository>
-          IMAGE_TAG: latest
-        run: |
-          # Build a docker container and
-          # push it to ECR so that it can
-          # be deployed to ECS.
-          chmod +x ./build-images.sh
-          ./build-images.sh
-          chmod +x ./push-images.sh
-          ./push-images.sh
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-      - name: Download task definition
-        run: |
-          aws ecs describe-task-definition --task-definition deploy_taskdef --query taskDefinition > task-definition.json
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: task-definition.json
-          container-name: backend
-          image: ${{ steps.build-image.outputs.image }}
-        
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: J2H2-main
-          cluster: J2H2-deploy-ecs
-          wait-for-service-stability: true
+          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          script: |
+            cd /J2H2
+            sudo git reset --hard
+            sudo git fetch
+            sudo git pull origin deploy
+            docker-compose -f docker-compose.prod.yml up --build -d
