@@ -1,0 +1,37 @@
+body,
+h1,
+h2,
+div,
+p,
+ul,
+li,
+dl,
+dt,
+dd {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+  color: #000;
+}
+ul,
+li {
+  list-style: none;
+}
+address {
+  font-style: normal;
+}
+body {
+  font-size: 14px;
+  font-family: "나눔고딕", "맑은고딕", "돋움";
+  font-weight: bold;
+}
+.blind {
+  position: absolute;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+}
