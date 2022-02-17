@@ -2,7 +2,8 @@ from django.conf.urls import url
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import UserViewSet, TPViewSet, MAViewSet, MQViewSet, SRViewSet, SDViewSet, SIViewSet, SAViewSet, SA2ViewSet, SearchQtoAViewSet, MAIViewSet, UAViewSet, UQViewSet, UPViewSet, PIQViewSet
+from .views import UserViewSet, TPViewSet, MAViewSet, MQViewSet, SRViewSet, SDViewSet, SIViewSet, SAViewSet, SA2ViewSet, \
+     MAIViewSet, UAViewSet, UQViewSet, UPViewSet, PIQViewSet
 
 app_name = 'chat_teesis'
 

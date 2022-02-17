@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 
 from .models import user_col, thesis_plan_col, mentor_answer_col, mentee_question_col
 from .serializers import UserSerializer, TPSerializer, MASerializer, MQSerializer
+from .tasks import delete_Q_DB_ES
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -93,7 +94,6 @@ class SDViewSet(APIView):  # 엘라스틱서치 플랜 검색어로 검색한 �
         question_list = []
         for i in range(len(data_list)):
             data = (data_list[i]['mentee_question_Id'])
-
             mentee_query = queryset.filter(mentee_question_Id__exact=data)
 
             for j in json.loads(serializers.serialize('json', mentee_query)):
@@ -120,18 +120,9 @@ class SIViewSet(APIView):  # 엘라스틱서치 플랜 Id로 검색 및 삭제
 
         return Response(data_list, status=200)
 
-    def delete(self, request, **kwargs):  # 멘티아이디로 document 삭제
-        es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))
-        mentee_question_Id = kwargs['mentee_question_Id']
-        doc = {"query": {
-            "match": {
-                "mentee_question_Id": mentee_question_Id,
-            }
-        }
-        }
-
-        docs = es.delete_by_query(index='search_1', doc_type="_doc", body=doc)
-        return Response(True)
+    def delete(self, request, **kwargs):  # 멘티 질문 아이디로 document 삭제
+        delete_Q_DB_ES.delay(kwargs['mentee_question_Id'], 0)
+        return Response(status=204)
 
 
 class SAViewSet(APIView):  # 엘라스틱서치 답변 검색어 검색
@@ -159,7 +150,7 @@ class SAViewSet(APIView):  # 엘라스틱서치 답변 검색어 검색
         return Response(data_list, status=200)
 
 
-class SA2ViewSet(APIView):  # 엘라스틱서치 답변 전체검색 및 등록
+class SA2ViewSet(APIView):  # 엘라스틱서치 답변 전체 검색 및 등록
 
     def get(self, request):
         es = Elasticsearch(hosts='elasticsearch', port=9200, http_auth=('elastic', 'j2h2'))

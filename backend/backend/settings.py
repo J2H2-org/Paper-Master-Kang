@@ -97,6 +97,10 @@ DATABASES = {
     }
 }
 
+RABBITMQ_HOSTS = os.getenv('RABBITMQ_HOST', 'rabbitmq')
+RABBITMQ_QUEUE_EXPIRES = 300.0
+RABBITMQ_MESSAGE_EXPIRES = RABBITMQ_QUEUE_EXPIRES
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -128,6 +132,8 @@ CORS_ORIGIN_WHITELIST = ['http://localhost:8000',
                          'http://localhost:8081',
                          'http://localhost:9090',
                          'http://localhost:5432',
+                         'http://localhost:5672',
+                         'http://localhost:15672',
                          'http://localhost:80',
                          'http://localhost']
 

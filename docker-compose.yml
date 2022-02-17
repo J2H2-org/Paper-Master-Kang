@@ -8,28 +8,6 @@ volumes:
 #    external: true
 
 services:
-#  mongo:
-#    container_name: mongo
-#    image: mongo:latest
-#    volumes:
-#      - mongodb_data_dev:/data/db
-#    restart: always
-#    ports:
-#      - "27017:27017"
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: root
-#      MONGO_INITDB_ROOT_PASSWORD: temppw
-#
-#  mongo-express:
-#    container_name: mongo-express
-#    image: mongo-express
-#    restart: always
-#    ports:
-#      - "9018:8081"
-#    environment:
-#      ME_CONFIG_MONGODB_URL: mongodb://root:temppw@host.docker.internal:27017/
-#    depends_on:
-#      - mongo
 
   db:
     image: postgres:12.0-alpine
@@ -42,11 +20,6 @@ services:
       POSTGRES_DB: "eg_db"
     ports:
       - "5432:5432"
-
-  #  redis:
-  #    image: redis
-  #    ports:
-  #      - "6379:6379"
 
   backend:
     container_name: backend
@@ -67,9 +40,34 @@ services:
       - ./settings/dev/.env.dev
     depends_on:
       - db
-#      - redis
+      - rabbitmq
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.7.14-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  celery:
+    container_name: celery
+    build:
+      context: ./backend
+      args:
+        DJANGO_ALLOWED_HOSTS: "*"
+        DJANGO_SECRET_KEY: "*"
+        DJANGO_CORS_ORIGIN_WHITELIST: "*"
+    working_dir: /backend/
+    command: celery -A backend worker -l info
+    volumes:
+      - ./backend/:/backend/
+    env_file:
+      - ./settings/dev/.env.dev
+    depends_on:
+      - backend
 
   node-exporter:
+    container_name: node-exporter
     image: prom/node-exporter
     volumes:
       - /proc:/host/proc:ro
