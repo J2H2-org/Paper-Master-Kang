@@ -41,7 +41,7 @@ class mentor_answer_col(ExportModelOperationsMixin('answer'), rdbms.Model):
 class mentee_question_col(ExportModelOperationsMixin('question'), rdbms.Model):
     mentee_question_Id = rdbms.AutoField(primary_key=True)
     thesis_plan_Id = rdbms.ForeignKey("thesis_plan_col", related_name="MQ_plan_Id",
-                                      on_delete=rdbms.CASCADE, db_column="thesis_plan_Id")
+    on_delete=rdbms.CASCADE, db_column="thesis_plan_Id")
     date = rdbms.DateTimeField(auto_now_add=True)
     title = rdbms.TextField()
     mentee_question = rdbms.TextField()
