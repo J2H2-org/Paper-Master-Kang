@@ -7,7 +7,6 @@
 ## Demo
 <p>
 <img src="https://user-images.githubusercontent.com/73998876/155296655-8776899c-7e50-4c28-a183-cf47fccb9f84.gif" style="width: 60%">
-
 <img src="https://user-images.githubusercontent.com/73998876/155300124-d4685237-76ab-408f-b5a1-37010d07b950.gif" style="width: 30%">
 </p>
 <p>
