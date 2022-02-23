@@ -15,6 +15,12 @@
 <img src="https://user-images.githubusercontent.com/73998876/155301933-7467a8be-f4f0-4af4-9fd1-5fa960ba9bd5.gif" style="width: 30%">
 </p>
 
+1. 웹 탑재
+2. 카카오톡 연동 및 질문하기
+3. 로그인, 회원가입, 회원정보 수정
+4. 질문 등록
+5. 답변 등록
+
 ## About Project
 해당 프로젝트는 성남 청년 AI & Chatbot 실리콘벨리 프리인턴십 프로그램을 통해 만들어졌습니다.<br>
 해당 레포지토리의 코드는 Mindwareworks의 CogInsight 챗봇 솔루션을 위한 API 서버이며, 챗봇에 대한 코드와 설정은 포함되어 있지 않습니다.<br>
