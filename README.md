@@ -6,14 +6,11 @@
 
 ## Demo
 <img src="https://user-images.githubusercontent.com/73998876/155296655-8776899c-7e50-4c28-a183-cf47fccb9f84.gif" style="width: 60%">
-
 <img src="https://user-images.githubusercontent.com/73998876/155300124-d4685237-76ab-408f-b5a1-37010d07b950.gif" style="width: 30%">
 
 <br>
 <img src="https://user-images.githubusercontent.com/73998876/155301925-b550034b-a5f4-4755-a930-50c0ee1c1b80.gif" style="width: 29%">
-
 <img src="https://user-images.githubusercontent.com/73998876/155301929-15a0dde8-ab7a-4cc6-be15-0e0afa255b3b.gif" style="width: 30%">
-
 <img src="https://user-images.githubusercontent.com/73998876/155301933-7467a8be-f4f0-4af4-9fd1-5fa960ba9bd5.gif" style="width: 30%">
 
 ## About Project
