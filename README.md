@@ -5,16 +5,16 @@
 발표 자료</a> 
 
 ## Demo
+<p>
 <img src="https://user-images.githubusercontent.com/73998876/155296655-8776899c-7e50-4c28-a183-cf47fccb9f84.gif" style="width: 60%">
 
 <img src="https://user-images.githubusercontent.com/73998876/155300124-d4685237-76ab-408f-b5a1-37010d07b950.gif" style="width: 30%">
-
-<br>
+</p>
+<p>
 <img src="https://user-images.githubusercontent.com/73998876/155301925-b550034b-a5f4-4755-a930-50c0ee1c1b80.gif" style="width: 29%">
-
 <img src="https://user-images.githubusercontent.com/73998876/155301929-15a0dde8-ab7a-4cc6-be15-0e0afa255b3b.gif" style="width: 30%">
-
 <img src="https://user-images.githubusercontent.com/73998876/155301933-7467a8be-f4f0-4af4-9fd1-5fa960ba9bd5.gif" style="width: 30%">
+</p>
 
 ## About Project
 해당 프로젝트는 성남 청년 AI & Chatbot 실리콘벨리 프리인턴십 프로그램을 통해 만들어졌습니다.<br>
@@ -25,9 +25,13 @@
 
 
 ## Service Detail
+<p>
 <img src="https://user-images.githubusercontent.com/73998876/155297275-f79d913a-945a-4676-8d31-b8af8c609dda.png" style="width: 40%">
 <img src="https://user-images.githubusercontent.com/73998876/155297279-bdbb9fff-04a9-44b7-b70c-6dc1b16b0fd6.png" style="width: 40%">
+</p>
+<p>
 <img src="https://user-images.githubusercontent.com/73998876/155297277-f85630db-0887-4011-82d0-fbdb63430bd1.png" style="width: 40%">
+</p>
 
 ## Service Architecture
 <img src="https://user-images.githubusercontent.com/73998876/155295777-e42a44bc-0411-48b4-956e-c36f5da7808a.png" alt="">
@@ -113,3 +117,13 @@ $ docker-compose -f docker-compose.yml exec backend python manage.py collectstat
 - Grafana : localhost:8082
 - Prometheus : localhost:9090
 - Kibana : localhost:5601
+
+### Team Members
+- 김영준 [@0BVer](https://github.com/0BVer)
+  - Team Leader, Backend, DevOps
+- 최수정 [@jadechoi](https://github.com/jadechoi)
+  - Backend, Search Engine
+- 강민혁 [@santa4246](https://github.com/santa4246)
+  - Frontend
+- 이혁 [@leehyeok97](https://github.com/leehyeok97)
+  - ChatBot
