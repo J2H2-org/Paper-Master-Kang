@@ -52,7 +52,53 @@ $ docker-compose -f docker-compose.yml exec backend python manage.py collectstat
 ```
 
 ### Elasticsearch Initial Setting
-
+1.인덱스 생성
+```shell
+$ curl -u id:pw -XPUT localhost:9200/index_name?pretty
+```
+2.인덱스 확인
+```shell
+$  curl -u id:pw -XGET localhost:9200/_cat/indices
+```
+3.인덱스 닫기
+```shell
+$  curl -u id:pw -XPOST localhost:9200/index_name/_close
+```
+4.설정 변경
+```shell
+$  curl -u id:pw -XPUT localhost:9200/index_name/_settings?
+    pretty" -H 'Content-Type: application/json' -d'{
+                     "index": {
+                         "analysis": {
+                             "analyzer": {
+                                 "nori": {
+                                     "tokenizer": "nori_tokenizer"
+                                 }
+                             }
+                         }
+                    }}'
+```
+5.매핑 변경
+```shell
+$  curl -u id:pw -XPUT localhost:9200/index_name/_mappings?
+    pretty" -H 'Content-Type: application/json' -d'
+{
+    "properties": {
+        "title": {
+            "type": "text",
+            "analyzer": "nori"
+        },
+        "contents": {
+            "type": "text",
+            "analyzer": "nori"
+        }
+    }
+}'
+```
+6.인덱스 오픈
+```shell
+$ curl -u id:pw -XPOST localhost:9200/index_name/_open
+```
 
 ### Grafana Prometheus Setting
 1. localhost:8082 Grafana page 접속
